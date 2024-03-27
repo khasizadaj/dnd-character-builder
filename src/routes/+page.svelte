@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import 'carbon-components-svelte/css/g90.css';
 	import { Tag, Grid, Row, Column, TooltipDefinition } from 'carbon-components-svelte';
 
@@ -16,8 +16,24 @@
 		eye_color: 'Black',
 		height: '220',
 		weight: '220',
-		appearance: 'Tall with brown hair and blue eyes'
+		appearance: 'Tall with brown hair and blue eyes',
+		abilityScores: [
+			{ type: 'strength', score: 20, proficient: true },
+			{ type: 'dexterity', score: 14, proficient: false },
+			{ type: 'constitution', score: 20, proficient: true },
+			{ type: 'intelligence', score: 8, proficient: false },
+			{ type: 'wisdom', score: 14, proficient: false },
+			{ type: 'charisma', score: 7, proficient: false }
+		]
 	};
+
+	function calculateAbilityScoreModifier(score: number) {
+		let result = Math.floor((score - 10) / 2);
+		if (result > 0) {
+			return `+${result}`;
+		}
+		return result;
+	}
 </script>
 
 <Grid narrow padding>
@@ -39,6 +55,35 @@
 					<Tag>Weight: {character.weight}</Tag>
 					<Tag>Height: {character.height}</Tag>
 				</div>
+			</div>
+			<div class="ability-scores">
+				{#each character.abilityScores as abilityScore}
+					{#if abilityScore.proficient}
+						<div class="ability proficient">
+							<div class="type">
+								<span>{abilityScore.type.slice(0, 3).toString().toUpperCase()}</span>
+							</div>
+							<div class="modifier">
+								<span>{calculateAbilityScoreModifier(abilityScore.score)}</span>
+							</div>
+							<div class="score">
+								<span>{abilityScore.score}</span>
+							</div>
+						</div>
+					{:else}
+						<div class="ability">
+							<div class="type">
+								<span>{abilityScore.type.slice(0, 3).toString().toUpperCase()}</span>
+							</div>
+							<div class="modifier">
+								<span>{calculateAbilityScoreModifier(abilityScore.score)}</span>
+							</div>
+							<div class="score">
+								<span>{abilityScore.score}</span>
+							</div>
+						</div>
+					{/if}
+				{/each}
 			</div>
 		</Column>
 		<Column noGutter md={1} lg={2}></Column>
@@ -71,10 +116,54 @@
 	}
 
 	.character-details .info {
-		margin-top: 48px;
+		margin-top: 1rem;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
 		gap: 12px;
+	}
+
+	.ability-scores {
+		margin-block: 3rem;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1rem;
+	}
+
+	.ability {
+		padding-inline: 4px;
+		border-radius: 0.5rem;
+		background: #525252;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		font-weight: 500;
+		font-size: 1rem;
+	}
+	
+	.ability.proficient {
+		background: #24a148;
+	}
+
+	.ability .score {
+		font-weight: bold;
+		padding-block: 0.5rem;
+	}
+	
+	.ability .type {
+		font-weight: bold;
+		padding-block: 0.5rem;
+	}
+	
+	.ability .modifier {
+		text-align: center;
+		width: 5rem;
+		border-radius: 0.25rem;
+		background: #f4f4f4;
+		color: #262626;
+		padding: 1.5rem;
+		font-size: 2rem;
 	}
 </style>
