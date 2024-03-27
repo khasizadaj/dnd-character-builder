@@ -20,54 +20,50 @@
 	};
 </script>
 
-<div class="section">
-	<div class="container">
-		<div class="character-details">
-			<div class="image">
-				<img src={character.profilePicture} alt="profile picture of character" />
+<Grid narrow padding>
+	<Row>
+		<Column noGutter md={1} lg={2}></Column>
+		<Column noGutter md={14} lg={12}>
+			<div class="character-details">
+				<div class="image" style="background-image: url({character.profilePicture});"></div>
+				<h1>{character.name}</h1>
+				<h4>
+					{character.level}th level {character.class}
+				</h4>
+				<div class="info">
+					<Tag size="default">Gender: {character.gender}</Tag>
+					<Tag>Race: {character.race}</Tag>
+					<Tag>Hair: {character.hair_color}</Tag>
+					<Tag>Eye color: {character.eye_color}</Tag>
+					<Tag>Skin color: {character.skin_color}</Tag>
+					<Tag>Weight: {character.weight}</Tag>
+					<Tag>Height: {character.height}</Tag>
+				</div>
 			</div>
-			<h1>{character.name}</h1>
-			<h4>
-				{character.level}th level {character.class}
-			</h4>
-            <div class="info">
-                <Tag>Gender: {character.gender}</Tag>
-                <Tag>Race: {character.race}</Tag>
-                <Tag>Hair: {character.hair_color}</Tag>
-                <Tag>Eye color: {character.eye_color}</Tag>
-                <Tag>Skin color: {character.skin_color}</Tag>
-                <Tag>Weight: {character.weight}</Tag>
-                <Tag>Height: {character.height}</Tag>
-            </div>
-		</div>
-	</div>
-</div>
+		</Column>
+		<Column noGutter md={1} lg={2}></Column>
+	</Row>
+</Grid>
 
 <style>
 	h1,
 	h4 {
 		text-align: center;
 	}
-	.section {
-		padding: 2rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-direction: column;
-	}
-	.container {
-		width: 90%;
-		max-width: 700px;
-	}
+
 	.character-details {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
 		gap: 1rem;
+		margin-inline: 1rem;
 	}
+
 	.character-details .image {
+		background-size: cover;
 		width: 400px;
+		max-width: 100%;
 		aspect-ratio: 1/1;
 		border-radius: 16px;
 		overflow: hidden;
@@ -75,10 +71,10 @@
 	}
 
 	.character-details .info {
-        margin-top: 48px;
+		margin-top: 48px;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-        gap: 12px;
+		gap: 12px;
 	}
 </style>
