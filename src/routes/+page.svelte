@@ -45,6 +45,25 @@
 					return;
 				}
 				const jsonData = JSON.parse(fileContent);
+				fetch('/api', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						"username": "jkhasizada",
+						"character": jsonData,
+					})
+				}).then(response => {
+						if (response.ok) {
+							console.log('Character saved successfully');
+						} else {
+							console.error('Failed to save character');
+						}
+					})
+					.catch(error => {
+						console.error('Error saving character:', error);
+					});
 				character = jsonData;
 			} catch (e) {
 				console.error('Error parsing JSON:', e);
