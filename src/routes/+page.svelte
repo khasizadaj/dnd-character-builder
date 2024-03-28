@@ -36,10 +36,10 @@
 	}
 </script>
 
-<Grid narrow padding>
-	<Row>
-		<Column noGutter md={1} lg={2}></Column>
-		<Column noGutter md={14} lg={12}>
+<Grid>
+	<Row padding>
+		<Column noGutter padding md={1} lg={2}></Column>
+		<Column noGutter padding md={14} lg={12}>
 			<div class="character-details">
 				<div class="image" style="background-image: url({character.profilePicture});"></div>
 				<h1>{character.name}</h1>
@@ -86,7 +86,7 @@
 				{/each}
 			</div>
 		</Column>
-		<Column noGutter md={1} lg={2}></Column>
+		<Column noGutter padding md={1} lg={2}></Column>
 	</Row>
 </Grid>
 
