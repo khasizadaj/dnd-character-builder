@@ -128,7 +128,7 @@
 				{/each}
 			</div>
 		</Column>
-		<Column noGutter md={1} lg={2}></Column>
+		<Column noGutter padding md={1} lg={2}></Column>
 	</Row>
 </Grid>
 
