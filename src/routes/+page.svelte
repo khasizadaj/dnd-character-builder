@@ -32,8 +32,7 @@
 					},
 					body: JSON.stringify({
 						username: 'jkhasizada',
-						character: jsonData,
-						filename: `${username}.json`
+						character: jsonData
 					})
 				})
 					.then((response) => {
