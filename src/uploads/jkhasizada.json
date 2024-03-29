@@ -1,0 +1,22 @@
+{
+	"profilePicture": "https://preview.redd.it/a6rstlmr0iq91.jpg?width=1080&crop=smart&auto=webp&s=e30b7ffe01920f9ba1cd793c96cb4612cb5d8a16",
+	"name": "Python Kei Klax",
+	"class": "Fighter & Lycanthrope",
+	"level": 13,
+	"race": "Shifter",
+	"gender": "Female",
+	"hair_color": "Black",
+	"skin_color": "Gray",
+	"eye_color": "Black",
+	"height": "220",
+	"weight": "200",
+	"appearance": "Tall with brown hair and blue eyes",
+	"abilityScores": [
+		{ "type": "strength", "score": 18, "proficient": true },
+		{ "type": "dexterity", "score": 19, "proficient": false },
+		{ "type": "constitution", "score": 10, "proficient": true },
+		{ "type": "intelligence", "score": 8, "proficient": false },
+		{ "type": "wisdom", "score": 14, "proficient": false },
+		{ "type": "charisma", "score": 7, "proficient": false }
+	]
+}
