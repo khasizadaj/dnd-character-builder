@@ -4,7 +4,7 @@ import { json } from '@sveltejs/kit';
 export async function POST({ request }) {
 	try {
 		const data = await request.json();
-		const filename = `src/uploads/${data.username}.json`;
+		const filename = `../../uploads/${data.username}.json`;
 		await writeFile(filename, JSON.stringify(data.character), 'utf8');
 
 		return json({
