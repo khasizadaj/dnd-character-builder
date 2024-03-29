@@ -1,31 +1,12 @@
 <script lang="ts">
 	import 'carbon-components-svelte/css/g90.css';
 	import { Tag, Grid, Row, Column, Tile, FileUploader, Link } from 'carbon-components-svelte';
-	import profilePicture from '$lib/assets/dnd-character-photo.jpg';
 
-	let character = {
-		profilePicture: profilePicture,
-		name: 'Python Kei Klax',
-		class: 'Fighter',
-		level: 13,
-		race: 'Shifter',
-		gender: 'Female',
-		hair_color: 'Black',
-		skin_color: 'Gray',
-		eye_color: 'Black',
-		height: '220',
-		weight: '220',
-		appearance: 'Tall with brown hair and blue eyes',
-		abilityScores: [
-			{ type: 'strength', score: 20, proficient: true },
-			{ type: 'dexterity', score: 14, proficient: false },
-			{ type: 'constitution', score: 20, proficient: true },
-			{ type: 'intelligence', score: 8, proficient: false },
-			{ type: 'wisdom', score: 14, proficient: false },
-			{ type: 'charisma', score: 7, proficient: false }
-		]
-	};
-	
+	export let data;
+	let character = data.character;
+	let username = 'jkhasizada';
+	let fileUploader;
+
 	function calculateAbilityScoreModifier(score: number) {
 		let result = Math.floor((score - 10) / 2);
 		if (result > 0) {
@@ -33,8 +14,7 @@
 		}
 		return result;
 	}
-	
-	let fileUploader;
+
 	const loadCharacterFile = (files) => {
 		const file = files.detail[0];
 		const reader = new FileReader();
@@ -51,17 +31,18 @@
 						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify({
-						"username": "jkhasizada",
-						"character": jsonData,
+						username: 'jkhasizada',
+						character: jsonData
 					})
-				}).then(response => {
+				})
+					.then((response) => {
 						if (response.ok) {
 							console.log('Character saved successfully');
 						} else {
 							console.error('Failed to save character');
 						}
 					})
-					.catch(error => {
+					.catch((error) => {
 						console.error('Error saving character:', error);
 					});
 				character = jsonData;
