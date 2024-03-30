@@ -10,14 +10,16 @@
 		FileUploader,
 		Link,
 		ProgressBar,
-		NumberInput
+		NumberInput,
+		Header,
+		Content
 	} from 'carbon-components-svelte';
 
 	export let data;
 	let character = data.character;
 	let username = 'jkhasizada';
 	$: currHp = character.maxHp;
-	let status = "active";
+	let status = 'active';
 	let fileUploader;
 
 	function calculateAbilityScoreModifier(score: number) {
@@ -51,109 +53,116 @@
 		};
 		reader.readAsText(file);
 	};
+	let isSideNavOpen = false;
 </script>
 
-<Grid narrow>
-	<Row>
-		<Column noGutter md={1} lg={2}></Column>
-		<Column noGutter md={14} lg={12}>
-			<Tile>
-				<FileUploader
-					bind:this={fileUploader}
-					labelTitle="Add character details"
-					buttonLabel="Add file"
-					accept={['.json	']}
-					status="complete"
-					on:change={(files) => loadCharacterFile(files)}
-				>
-					<span slot="labelDescription"
-						>Only JSON files are accepted. See sample character file
-						<Link
-							target="_blank"
-							href="https://gist.github.com/khasizadaj/66804c314e9e31b0d148b68057e4564a">here</Link
-						>.
-					</span>
-				</FileUploader>
-			</Tile>
-			<div class="character-details">
-				<div class="image" style="background-image: url({character.profilePicture});"></div>
-				<h1>{character.name}</h1>
-				<h4>
-					{character.level}th level {character.class}
-				</h4>
-				<div class="info">
-					<Tag size="default">Gender: {character.gender}</Tag>
-					<Tag>Race: {character.race}</Tag>
-					<Tag>Hair: {character.hair_color}</Tag>
-					<Tag>Eye color: {character.eye_color}</Tag>
-					<Tag>Skin color: {character.skin_color}</Tag>
-					<Tag>Weight: {character.weight}</Tag>
-					<Tag>Height: {character.height}</Tag>
+<Header company="DnD" platformName="Character Builder" bind:isSideNavOpen></Header>
+<Content>
+	<Grid narrow>
+		<Row>
+			<Column noGutter md={1} lg={2}></Column>
+			<Column noGutter md={14} lg={12}>
+				<Tile>
+					<FileUploader
+						bind:this={fileUploader}
+						labelTitle="Add character details"
+						buttonLabel="Add file"
+						accept={['.json	']}
+						status="complete"
+						on:change={(files) => loadCharacterFile(files)}
+					>
+						<span slot="labelDescription"
+							>Only JSON files are accepted. See sample character file
+							<Link
+								target="_blank"
+								href="https://gist.github.com/khasizadaj/66804c314e9e31b0d148b68057e4564a"
+								>here</Link
+							>.
+						</span>
+					</FileUploader>
+				</Tile>
+				<div class="character-details">
+					<div class="image" style="background-image: url({character.profilePicture});"></div>
+					<h1>{character.name}</h1>
+					<h4>
+						{character.level}th level {character.class}
+					</h4>
+					<div class="info">
+						<Tag size="default">Gender: {character.gender}</Tag>
+						<Tag>Race: {character.race}</Tag>
+						<Tag>Hair: {character.hair_color}</Tag>
+						<Tag>Eye color: {character.eye_color}</Tag>
+						<Tag>Skin color: {character.skin_color}</Tag>
+						<Tag>Weight: {character.weight}</Tag>
+						<Tag>Height: {character.height}</Tag>
+					</div>
 				</div>
-			</div>
-			<div class="ability-scores">
-				{#each character.abilityScores as abilityScore}
-					{#if abilityScore.proficient}
-						<div class="ability proficient">
-							<div class="type">
-								<span>{abilityScore.type.slice(0, 3).toString().toUpperCase()}</span>
+				<div class="ability-scores">
+					{#each character.abilityScores as abilityScore}
+						{#if abilityScore.proficient}
+							<div class="ability proficient">
+								<div class="type">
+									<span>{abilityScore.type.slice(0, 3).toString().toUpperCase()}</span>
+								</div>
+								<div class="modifier">
+									<span>{calculateAbilityScoreModifier(abilityScore.score)}</span>
+								</div>
+								<div class="score">
+									<span>{abilityScore.score}</span>
+								</div>
 							</div>
-							<div class="modifier">
-								<span>{calculateAbilityScoreModifier(abilityScore.score)}</span>
+						{:else}
+							<div class="ability">
+								<div class="type">
+									<span>{abilityScore.type.slice(0, 3).toString().toUpperCase()}</span>
+								</div>
+								<div class="modifier">
+									<span>{calculateAbilityScoreModifier(abilityScore.score)}</span>
+								</div>
+								<div class="score">
+									<span>{abilityScore.score}</span>
+								</div>
 							</div>
-							<div class="score">
-								<span>{abilityScore.score}</span>
-							</div>
-						</div>
-					{:else}
-						<div class="ability">
-							<div class="type">
-								<span>{abilityScore.type.slice(0, 3).toString().toUpperCase()}</span>
-							</div>
-							<div class="modifier">
-								<span>{calculateAbilityScoreModifier(abilityScore.score)}</span>
-							</div>
-							<div class="score">
-								<span>{abilityScore.score}</span>
-							</div>
-						</div>
-					{/if}
-				{/each}
-			</div>
-			<ProgressBar
-				status={status}
-				value={currHp}
-				max={character.maxHp}
-				labelText="Health Points"
-				helperText="{currHp} HP out of {character.maxHp} left"
-			/>
-			<Grid>
-				<Row>
-					<Column noGutterRight padding md={6} lg={14}>
-						<NumberInput id="current-damage" value={1} size="sm" min={1} max={character.maxHp} />
-					</Column>
-					<Column padding md={2} lg={2}>
-						<Button kind="danger-tertiary" size="small" on:click = {() => {
-							let damageInput = document.getElementById("current-damage");
-							if (damageInput?.value == 0)
-								return;
-							currHp -= parseInt(damageInput?.value);
+						{/if}
+					{/each}
+				</div>
+				<ProgressBar
+					{status}
+					value={currHp}
+					max={character.maxHp}
+					labelText="Health Points"
+					helperText="{currHp} HP out of {character.maxHp} left"
+				/>
+				<Grid>
+					<Row>
+						<Column noGutterRight padding md={6} lg={14}>
+							<NumberInput id="current-damage" value={1} size="sm" min={1} max={character.maxHp} />
+						</Column>
+						<Column padding md={2} lg={2}>
+							<Button
+								kind="danger-tertiary"
+								size="small"
+								on:click={() => {
+									let damageInput = document.getElementById('current-damage');
+									if (damageInput?.value == 0) return;
+									currHp -= parseInt(damageInput?.value);
 
-							if (currHp <= 0)
-							{
-								currHp = 0;
-								damageInput.disabled = true;
-								status="error";
-							}
-							damageInput.value = 1;
-						  }}>Damage</Button>
-					</Column>
-				</Row>
-			</Grid>
-		</Column>
-		<Column noGutter padding md={1} lg={2}></Column>
-	</Row>
-</Grid>
+									if (currHp <= 0) {
+										currHp = 0;
+										damageInput.disabled = true;
+										status = 'error';
+									}
+									damageInput.value = 1;
+								}}>Damage</Button
+							>
+						</Column>
+					</Row>
+				</Grid>
+			</Column>
+			<Column noGutter padding md={1} lg={2}></Column>
+		</Row>
+	</Grid>
+</Content>
 
 <style>
 	h1,
