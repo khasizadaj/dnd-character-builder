@@ -16,7 +16,7 @@
 	export let data;
 	let character = data.character;
 	let username = 'jkhasizada';
-	let totalDamage = 0;
+	$: currHp = character.maxHp;
 	let status = "active";
 	let fileUploader;
 
@@ -122,10 +122,10 @@
 			</div>
 			<ProgressBar
 				status={status}
-				value={character.maxHp - totalDamage}
+				value={currHp}
 				max={character.maxHp}
 				labelText="Health Points"
-				helperText="{character.maxHp - totalDamage} HP out of {character.maxHp} left"
+				helperText="{currHp} HP out of {character.maxHp} left"
 			/>
 			<Grid>
 				<Row>
@@ -137,11 +137,11 @@
 							let damageInput = document.getElementById("current-damage");
 							if (damageInput?.value == 0)
 								return;
-							totalDamage += parseInt(damageInput?.value);
+							currHp -= parseInt(damageInput?.value);
 
-							if (totalDamage >= character.maxHp)
+							if (currHp == 0)
 							{
-								totalDamage = character.maxHp;
+								currHp = 0;
 								damageInput.disabled = true;
 								status="error";
 							}
