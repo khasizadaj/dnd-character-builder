@@ -10,6 +10,7 @@
 	"eye_color": "Black",
 	"height": "220",
 	"weight": "200",
+	"maxHp": 236,
 	"appearance": "Tall with brown hair and blue eyes",
 	"abilityScores": [
 		{ "type": "strength", "score": 18, "proficient": true },

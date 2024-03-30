@@ -1,10 +1,23 @@
 <script lang="ts">
 	import 'carbon-components-svelte/css/g90.css';
-	import { Tag, Grid, Row, Column, Tile, FileUploader, Link } from 'carbon-components-svelte';
+	import {
+		Tag,
+		Grid,
+		Row,
+		Button,
+		Column,
+		Tile,
+		FileUploader,
+		Link,
+		ProgressBar,
+		NumberInput
+	} from 'carbon-components-svelte';
 
 	export let data;
 	let character = data.character;
 	let username = 'jkhasizada';
+	$: currHp = character.maxHp;
+	let status = "active";
 	let fileUploader;
 
 	function calculateAbilityScoreModifier(score: number) {
@@ -40,7 +53,7 @@
 	};
 </script>
 
-<Grid narrow padding>
+<Grid narrow>
 	<Row>
 		<Column noGutter md={1} lg={2}></Column>
 		<Column noGutter md={14} lg={12}>
@@ -107,6 +120,36 @@
 					{/if}
 				{/each}
 			</div>
+			<ProgressBar
+				status={status}
+				value={currHp}
+				max={character.maxHp}
+				labelText="Health Points"
+				helperText="{currHp} HP out of {character.maxHp} left"
+			/>
+			<Grid>
+				<Row>
+					<Column noGutterRight padding md={6} lg={14}>
+						<NumberInput id="current-damage" value={1} size="sm" min={1} max={character.maxHp} />
+					</Column>
+					<Column padding md={2} lg={2}>
+						<Button kind="danger-tertiary" size="small" on:click = {() => {
+							let damageInput = document.getElementById("current-damage");
+							if (damageInput?.value == 0)
+								return;
+							currHp -= parseInt(damageInput?.value);
+
+							if (currHp == 0)
+							{
+								currHp = 0;
+								damageInput.disabled = true;
+								status="error";
+							}
+							damageInput.value = 1;
+						  }}>Damage</Button>
+					</Column>
+				</Row>
+			</Grid>
 		</Column>
 		<Column noGutter padding md={1} lg={2}></Column>
 	</Row>
