@@ -139,7 +139,7 @@
 								return;
 							currHp -= parseInt(damageInput?.value);
 
-							if (currHp == 0)
+							if (currHp <= 0)
 							{
 								currHp = 0;
 								damageInput.disabled = true;
