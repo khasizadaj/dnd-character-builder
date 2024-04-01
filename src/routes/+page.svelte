@@ -19,13 +19,16 @@
 
 	export let data;
 	let character = data.character;
+
+	const attackModifiers = {
+		proficiencyBonus: character.proficiencyBonus,
+		attackAbilityModifier: calculateAbilityScoreModifier(character.abilityScores[0].score) // strength
+	};
+
 	let fileUploader;
 
 	function calculateAbilityScoreModifier(score: number) {
 		let result = Math.floor((score - 10) / 2);
-		if (result > 0) {
-			return `+${result}`;
-		}
 		return result;
 	}
 
@@ -104,7 +107,11 @@
 									<span>{abilityScore.type.slice(0, 3).toString().toUpperCase()}</span>
 								</div>
 								<div class="modifier">
-									<span>{calculateAbilityScoreModifier(abilityScore.score)}</span>
+									{#if calculateAbilityScoreModifier(abilityScore.score) > 0}
+										<span>+{calculateAbilityScoreModifier(abilityScore.score)}</span>
+									{:else}
+										<span>{calculateAbilityScoreModifier(abilityScore.score)}</span>
+									{/if}
 								</div>
 								<div class="score">
 									<span>{abilityScore.score}</span>
@@ -116,7 +123,11 @@
 									<span>{abilityScore.type.slice(0, 3).toString().toUpperCase()}</span>
 								</div>
 								<div class="modifier">
-									<span>{calculateAbilityScoreModifier(abilityScore.score)}</span>
+									{#if calculateAbilityScoreModifier(abilityScore.score) > 0}
+										<span>+{calculateAbilityScoreModifier(abilityScore.score)}</span>
+									{:else}
+										<span>{calculateAbilityScoreModifier(abilityScore.score)}</span>
+									{/if}
 								</div>
 								<div class="score">
 									<span>{abilityScore.score}</span>
@@ -130,7 +141,9 @@
 					<Tile>
 						<h1>Weapons</h1>
 					</Tile>
-					<Weapon />
+					{#each character.weapons as weapon}
+						<Weapon {weapon} {attackModifiers}/>
+					{/each}
 				</div>
 			</Column>
 			<Column noGutter md={1} lg={2}></Column>

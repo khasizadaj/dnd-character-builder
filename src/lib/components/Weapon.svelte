@@ -1,4 +1,7 @@
-<script type="ts">
+<script lang="ts">
+	import AssemblyReference from 'carbon-icons-svelte/lib/AssemblyReference.svelte';
+	import ChartRadar from 'carbon-icons-svelte/lib/ChartRadar.svelte';
+
 	import {
 		Button,
 		DataTable,
@@ -8,37 +11,100 @@
 		Tile,
 		UnorderedList
 	} from 'carbon-components-svelte';
-	const weapon = {
-		name: 'Star Sickle',
-		dice: [
-			{ count: 3, type: 6, damage: 'default' },
-			{ count: 2, type: 4, damage: 'radiant' }
-		],
-		description: [
-			'The sickle has the finese and thrown properly (20/60). Immediately after you make a ranged attack with this waepon, it disipates into starlight and reappears in your hand.',
-			'When you the attack action, you can replace one of your weapon attacks with special realty warping ranged attack. Choose a point you can see within 30 ft. throw the sickle, Each creature within 5 ft. must succeed on a DC 17 `STR` saving throw or take *3d6* force damage as it erupts in energy, reappearing in your hand.'
-		],
-		spells: [
-			{
-				name: 'Misty Spell',
-				url: 'http://dnd5e.wikidot.com/spell:misty-step'
+
+	export let weapon: Weapon;
+	export let attackModifiers: Object;
+
+	class Die {
+		count: number;
+		type: number;
+		damage: string;
+
+		constructor(count: number, type: number, damage: string) {
+			this.count = count;
+			this.type = type;
+			this.damage = damage;
+		}
+	}
+
+	class Weapon {
+		name: string;
+		dice: Die[];
+		description: string[];
+		spells: any[];
+		modifier: number;
+
+		constructor(name: string, dice: Die[], description: string[], spells: any[], modifier: number) {
+			this.name = name;
+			this.dice = dice;
+			this.description = description;
+			this.spells = spells;
+			this.modifier = modifier;
+		}
+	}
+
+	let data_table_rows: any = null;
+
+	const getDataTableRows = () => {
+		return damageRolls.map((roll: any, index: number) => ({
+			id: String.fromCharCode(97 + index), // generates 'a', 'b', 'c', etc.
+			die: `1d${roll.type}`,
+			damage: roll.damage,
+			damageType: roll.damageType
+		}));
+	};
+
+	const rollDie = (max: number) => {
+		let result;
+		var randomBytes = new Uint8Array(4);
+		crypto.getRandomValues(randomBytes);
+		var randomInt =
+			(randomBytes[0] << 24) | (randomBytes[1] << 16) | (randomBytes[2] << 8) | randomBytes[3];
+		result = Math.floor((Math.abs(randomInt) / 0x7fffffff) * max) + 1;
+		console.log(`--:`, result);
+		return result;
+	};
+
+	const rollForAttack = (weapon: Weapon) => {
+		let attack = rollDie(20);
+		attack += weapon.modifier;
+		console.log('Weapon modifier:', weapon.modifier);
+		attack += attackModifiers.proficiencyBonus;
+		console.log('Prof. bonus:', attackModifiers.proficiencyBonus);
+		attack += attackModifiers.attackAbilityModifier;
+		console.log('Attack ability bonus:', attackModifiers.attackAbilityModifier);
+		console.log('Attack roll:', attack);
+		return attack;
+	};
+
+	const rollForDamage = (weapon: Weapon) => {
+		let rolls: Object[] = [];
+		weapon.dice.forEach((die: Die) => {
+			for (let i = 0; i < die.count; i++) {
+				rolls.push({ type: die.type, damageType: die.damage, damage: rollDie(die.type) });
 			}
-		],
-		modifier: 2
-	};
-	let data_table_rows = weapon.dice.map((die, index) => ({
-		id: String.fromCharCode(97 + index), // generates 'a', 'b', 'c', etc.
-		die: `${die.count}d${die.type}`,
-		damage: 0,
-		type: die.damage
-	}));
-	import AssemblyReference from 'carbon-icons-svelte/lib/AssemblyReference.svelte';
-	import ChartRadar from 'carbon-icons-svelte/lib/ChartRadar.svelte';
-
-	const roll = () => {
-		console.log('Rolling for result...');
+		});
+		return rolls;
 	};
 
+	const calculateDamage = (rolls: Object[]) => {
+		let totalDamage = 0;
+		rolls.forEach((roll: Object) => {
+			totalDamage += roll.damage;
+		});
+		totalDamage += weapon.modifier;
+		console.log('Weapon modifier:', weapon.modifier);
+		totalDamage += attackModifiers.proficiencyBonus;
+		console.log('Prof. bonus:', attackModifiers.proficiencyBonus);
+		totalDamage += attackModifiers.attackAbilityModifier;
+		console.log('Attack ability bonus:', attackModifiers.attackAbilityModifier);
+		console.log('Total damage:', totalDamage);
+		return totalDamage;
+	};
+
+	let totalDamage: number;
+	let damageRolls: Object[];
+	let attackResult: number;
 	let resultIsShown = false;
 </script>
 
@@ -59,32 +125,44 @@
 			on:click={(e) => {
 				e.stopPropagation();
 				resultIsShown = true;
-				roll();
+				damageRolls = rollForDamage(weapon);
+				data_table_rows = getDataTableRows();
+				totalDamage = calculateDamage(damageRolls);
+				attackResult = rollForAttack(weapon);
 			}}
 		>
-			Roll
+			Attack
 		</Button>
 		<br /> <br />
 		{#if resultIsShown}
 			<Tile light>
-				<p>Roll: 20</p>
-				<p>Total Damage: 15</p>
+				<p>Roll: {attackResult}</p>
+				<p>Total Damage: {totalDamage}</p>
 			</Tile>
 		{/if}
 	</div>
 	<div slot="below">
-		<br />
-		<h4>Roll results</h4>
-		<br />
-		<DataTable
-			size="short"
-			headers={[
-				{ key: 'die', value: 'Die' },
-				{ key: 'damage', value: 'Damage' },
-				{ key: 'type', value: 'Type' }
-			]}
-			rows={data_table_rows}
-		/>
+		{#if resultIsShown}
+			{#if resultIsShown}
+				<br />
+				<h4>Roll results</h4>
+				<br />
+				<DataTable
+					size="short"
+					headers={[
+						{ key: 'die', value: 'Die' },
+						{ key: 'damage', value: 'Damage' },
+						{ key: 'damageType', value: 'Type' }
+					]}
+					rows={data_table_rows}
+				/>
+				<br>
+				<Tile light>
+					<p>Proficiency Bonus: {attackModifiers.proficiencyBonus}</p>
+					<p>Attack Ability Modifier: {attackModifiers.attackAbilityModifier}</p>
+				</Tile>
+			{/if}
+		{/if}
 		<br />
 		<h4>Description</h4>
 		<br />
