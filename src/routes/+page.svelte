@@ -291,6 +291,11 @@
 		align-items: center;
 		gap: 1rem;
 	}
+
+	.damage-section .input {
+		width: 100%;
+	}
+	
 	.damage-section > .actions {
 		display: flex;
 		justify-content: center;
@@ -298,14 +303,18 @@
 		gap: 0.5rem;
 	}
 
-	@media (max-width: 40rem) {
+	@media (max-width: 400px) {
 		.character-details .image {
 			width: 100%;
 		}
+	
 		.health > .damage-section {
 			flex-direction: column;
 		}
-		.damage-section > .actions, .damage-section > .input{
+	
+		.damage-section > .actions,
+	
+		.damage-section > .input {
 			width: 100%;
 			justify-content: start;
 		}
