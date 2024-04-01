@@ -1,8 +1,9 @@
 <script lang="ts">
-	import Health from '../lib/components/Health.svelte';
-
 	import 'carbon-components-svelte/css/g90.css';
+
+	import Health from '../lib/components/Health.svelte';
 	import Weapon from '$lib/components/Weapon.svelte';
+
 	import {
 		Tag,
 		Grid,
@@ -214,42 +215,9 @@
 		font-size: 2rem;
 	}
 
-	.health {
-		margin-block: 3rem;
-	}
-
-	.health > .damage-section {
-		margin-block-start: 1rem;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 1rem;
-	}
-
-	.damage-section .input {
-		width: 100%;
-	}
-
-	.damage-section > .actions {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
 	@media (max-width: 400px) {
 		.character-details .image {
 			width: 100%;
-		}
-
-		.health > .damage-section {
-			flex-direction: column;
-		}
-
-		.damage-section > .actions,
-		.damage-section > .input {
-			width: 100%;
-			justify-content: start;
 		}
 	}
 </style>
