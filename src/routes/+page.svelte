@@ -1,5 +1,6 @@
 <script lang="ts">
 	import 'carbon-components-svelte/css/g90.css';
+	import Weapon from '$lib/components/Weapon.svelte';
 	import {
 		Tag,
 		Grid,
@@ -158,6 +159,12 @@
 						</Column>
 					</Row>
 				</Grid>
+				<div>
+					<Tile>
+						<h1>Weapons</h1>
+					</Tile>
+					<Weapon />
+				</div>
 			</Column>
 			<Column noGutter padding md={1} lg={2}></Column>
 		</Row>
