@@ -1,8 +1,8 @@
 <script lang="ts">
-	import AssemblyReference from 'carbon-icons-svelte/lib/AssemblyReference.svelte';
-	import ChartRadar from 'carbon-icons-svelte/lib/ChartRadar.svelte';
+	import { Restart, ChartRadar, AssemblyReference } from 'carbon-icons-svelte';
 
-	import { AttackModifiers, WeaponInfo } from '$lib/types';
+	import { AttackModifiers, WeaponInfo, AbilityScore } from '$lib/types';
+	import { calculateAbilityScoreModifier } from '$lib/utils';
 
 	import {
 		Button,
@@ -15,7 +15,32 @@
 	} from 'carbon-components-svelte';
 
 	export let weapon: WeaponInfo;
-	export let attackModifiers: AttackModifiers;
+	export let character: any;
+	console.log(weapon);
+	const getAbilityScore = (ability: string, abilityScores: any[]) => {
+		console.log('Ability: ', ability);
+		console.log('Scores: ', abilityScores);
+		for (const element of abilityScores) {
+			if (element.type == ability) {
+				console.log('Gotta exit.');
+				return element;
+			}
+		}
+		console.log("Couldn't found it");
+		return null;
+	};
+
+	const attackAbilityInfo: AbilityScore | null = getAbilityScore(
+		weapon.attackAbility,
+		character.abilityScores
+	);
+
+	console.log('TEST INFO', attackAbilityInfo);
+	const attackModifiers = new AttackModifiers(
+		character.proficiencyBonus,
+		calculateAbilityScoreModifier(attackAbilityInfo?.score)
+	);
+	console.log('TEST', attackModifiers);
 
 	let data_table_rows: any = null;
 
@@ -107,22 +132,24 @@
 		>
 			Attack
 		</Button>
+		<Button
+			size="small"
+			icon={Restart}
+			iconDescription="Reset attack"
+			kind="secondary"
+			on:click={(e) => {
+				e.stopPropagation();
+				resultIsShown = false;
+			}}
+		/>
 		<br /> <br />
 		{#if resultIsShown}
 			<Tile light>
 				<p>Roll: {attackResult}</p>
 				<p>Total Damage: {totalDamage}</p>
-			</Tile>
-		{/if}
-	</div>
-	<div slot="below">
-		{#if resultIsShown}
-			{#if resultIsShown}
-				<br />
-				<h4>Roll results</h4>
 				<br />
 				<DataTable
-					size="short"
+					size="compact"
 					headers={[
 						{ key: 'die', value: 'Die' },
 						{ key: 'damage', value: 'Damage' },
@@ -130,13 +157,15 @@
 					]}
 					rows={data_table_rows}
 				/>
-				<br>
-				<Tile light>
-					<p>Proficiency Bonus: {attackModifiers.proficiencyBonus}</p>
-					<p>Attack Ability Modifier: {attackModifiers.attackAbilityModifier}</p>
+				<br />
+				<Tile>
+					<p>Proficiency Bonus: {attackModifiers.proficiency}</p>
+					<p>Attack Ability Modifier: {attackModifiers.ability}</p>
 				</Tile>
-			{/if}
+			</Tile>
 		{/if}
+	</div>
+	<div slot="below">
 		<br />
 		<h4>Description</h4>
 		<br />

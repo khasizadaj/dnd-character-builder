@@ -4,8 +4,6 @@
 	import Health from '../lib/components/Health.svelte';
 	import Weapon from '$lib/components/Weapon.svelte';
 
-	import { AttackModifiers } from '$lib/types';
-
 	import {
 		Tag,
 		Grid,
@@ -21,12 +19,6 @@
 
 	export let data;
 	let character = data.character;
-
-	const attackModifiers = new AttackModifiers(
-		character.proficiencyBonus,
-		calculateAbilityScoreModifier(character.abilityScores[0].score)
-	);
-
 	let fileUploader;
 
 	function calculateAbilityScoreModifier(score: number) {
@@ -144,7 +136,7 @@
 						<h1>Weapons</h1>
 					</Tile>
 					{#each character.weapons as weapon}
-						<Weapon {weapon} {attackModifiers}/>
+						<Weapon {weapon} {character}/>
 					{/each}
 				</div>
 			</Column>
