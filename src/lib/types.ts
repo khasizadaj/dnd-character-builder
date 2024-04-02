@@ -1,4 +1,4 @@
-export class Die {
+export class Dice {
     count: number;
     type: number;
     damage: string;
@@ -12,12 +12,12 @@ export class Die {
 
 export class WeaponInfo {
     name: string;
-    dice: Die[];
+    dice: Dice[];
     description: string[];
     spells: any[];
     modifier: number;
 
-    constructor(name: string, dice: Die[], description: string[], spells: any[], modifier: number) {
+    constructor(name: string, dice: Dice[], description: string[], spells: any[], modifier: number) {
         this.name = name;
         this.dice = dice;
         this.description = description;
