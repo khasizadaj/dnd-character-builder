@@ -163,6 +163,7 @@
 					<p>Attack Ability Modifier: {attackModifiers.ability}</p>
 				</Tile>
 			</Tile>
+			<br/> <br/>
 		{/if}
 	</div>
 	<div slot="below">
@@ -174,6 +175,6 @@
 				<ListItem>{line}</ListItem>
 			{/each}
 		</UnorderedList>
-		<br />
+		<br /> <br />
 	</div>
 </ExpandableTile>
