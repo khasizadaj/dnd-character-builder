@@ -12,12 +12,83 @@
 	"weight": "142",
 	"maxHp": 239,
 	"appearance": "Tall with brown hair and blue eyes",
+	"proficiencyBonus": 6,
 	"abilityScores": [
-		{ "type": "strength", "score": 22, "proficient": true },
-		{ "type": "dexterity", "score": 16, "proficient": false },
-		{ "type": "constitution", "score": 22, "proficient": true },
-		{ "type": "intelligence", "score": 8, "proficient": false },
-		{ "type": "wisdom", "score": 14, "proficient": false },
-		{ "type": "charisma", "score": 7, "proficient": false }
+		{
+			"type": "strength",
+			"score": 22,
+			"proficient": true
+		},
+		{
+			"type": "dexterity",
+			"score": 16,
+			"proficient": false
+		},
+		{
+			"type": "constitution",
+			"score": 22,
+			"proficient": true
+		},
+		{
+			"type": "intelligence",
+			"score": 8,
+			"proficient": false
+		},
+		{
+			"type": "wisdom",
+			"score": 14,
+			"proficient": false
+		},
+		{
+			"type": "charisma",
+			"score": 7,
+			"proficient": false
+		}
+	],
+	"weapons": [
+		{
+			"name": "Star Sickle",
+			"dice": [
+				{
+					"count": 3,
+					"type": 6,
+					"damage": "default"
+				},
+				{
+					"count": 2,
+					"type": 4,
+					"damage": "radiant"
+				}
+			],
+			"attackAbility": "strength",
+			"description": [
+				"The sickle has the finese and thrown properly (20/60). Immediately after you make a ranged attack with this waepon, it disipates into starlight and reappears in your hand.",
+				"When you the attack action, you can replace one of your weapon attacks with special realty warping ranged attack. Choose a point you can see within 30 ft. throw the sickle, Each creature within 5 ft. must succeed on a DC 17 `STR` saving throw or take *3d6* force damage as it erupts in energy, reappearing in your hand."
+			],
+			"spells": [
+				{
+					"name": "Misty Spell",
+					"url": "http: //dnd5e.wikidot.com/spell:misty-step"
+				}
+			],
+			"modifier": 3
+		},
+		{
+			"name": "Star Razor",
+			"dice": [
+				{
+					"count": 2,
+					"type": 8,
+					"damage": "radiant"
+				}
+			],
+			"attackAbility": "strength",
+			"description": [
+				"The sickle has the finese and thrown properly (20/60). Immediately after you make a ranged attack with this waepon, it disipates into starlight and reappears in your hand.",
+				"When you the attack action, you can replace one of your weapon attacks with special realty warping ranged attack. Choose a point you can see within 30 ft. throw the sickle, Each creature within 5 ft. must succeed on a DC 17 `STR` saving throw or take *3d6* force damage as it erupts in energy, reappearing in your hand."
+			],
+			"spells": [],
+			"modifier": 2
+		}
 	]
 }
