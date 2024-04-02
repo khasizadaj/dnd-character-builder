@@ -2,6 +2,8 @@
 	import AssemblyReference from 'carbon-icons-svelte/lib/AssemblyReference.svelte';
 	import ChartRadar from 'carbon-icons-svelte/lib/ChartRadar.svelte';
 
+	import { AttackModifiers, WeaponInfo } from '$lib/types';
+
 	import {
 		Button,
 		DataTable,
@@ -12,36 +14,8 @@
 		UnorderedList
 	} from 'carbon-components-svelte';
 
-	export let weapon: Weapon;
-	export let attackModifiers: Object;
-
-	class Die {
-		count: number;
-		type: number;
-		damage: string;
-
-		constructor(count: number, type: number, damage: string) {
-			this.count = count;
-			this.type = type;
-			this.damage = damage;
-		}
-	}
-
-	class Weapon {
-		name: string;
-		dice: Die[];
-		description: string[];
-		spells: any[];
-		modifier: number;
-
-		constructor(name: string, dice: Die[], description: string[], spells: any[], modifier: number) {
-			this.name = name;
-			this.dice = dice;
-			this.description = description;
-			this.spells = spells;
-			this.modifier = modifier;
-		}
-	}
+	export let weapon: WeaponInfo;
+	export let attackModifiers: AttackModifiers;
 
 	let data_table_rows: any = null;
 
@@ -69,10 +43,10 @@
 		let attack = rollDie(20);
 		attack += weapon.modifier;
 		console.log('Weapon modifier:', weapon.modifier);
-		attack += attackModifiers.proficiencyBonus;
-		console.log('Prof. bonus:', attackModifiers.proficiencyBonus);
-		attack += attackModifiers.attackAbilityModifier;
-		console.log('Attack ability bonus:', attackModifiers.attackAbilityModifier);
+		attack += attackModifiers.proficiency;
+		console.log('Prof. bonus:', attackModifiers.proficiency);
+		attack += attackModifiers.ability;
+		console.log('Attack ability bonus:', attackModifiers.ability);
 		console.log('Attack roll:', attack);
 		return attack;
 	};
@@ -94,10 +68,10 @@
 		});
 		totalDamage += weapon.modifier;
 		console.log('Weapon modifier:', weapon.modifier);
-		totalDamage += attackModifiers.proficiencyBonus;
-		console.log('Prof. bonus:', attackModifiers.proficiencyBonus);
-		totalDamage += attackModifiers.attackAbilityModifier;
-		console.log('Attack ability bonus:', attackModifiers.attackAbilityModifier);
+		totalDamage += attackModifiers.proficiency;
+		console.log('Prof. bonus:', attackModifiers.proficiency);
+		totalDamage += attackModifiers.ability;
+		console.log('Attack ability bonus:', attackModifiers.ability);
 		console.log('Total damage:', totalDamage);
 		return totalDamage;
 	};
