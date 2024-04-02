@@ -132,16 +132,18 @@
 		>
 			Attack
 		</Button>
-		<Button
-			size="small"
-			icon={Restart}
-			iconDescription="Reset attack"
-			kind="secondary"
-			on:click={(e) => {
-				e.stopPropagation();
-				resultIsShown = false;
-			}}
-		/>
+		{#if resultIsShown}
+			<Button
+				size="small"
+				icon={Restart}
+				iconDescription="Reset attack"
+				kind="secondary"
+				on:click={(e) => {
+					e.stopPropagation();
+					resultIsShown = false;
+				}}
+			/>
+		{/if}
 		<br /> <br />
 		{#if resultIsShown}
 			<Tile light>
@@ -163,7 +165,7 @@
 					<p>Attack Ability Modifier: {attackModifiers.ability}</p>
 				</Tile>
 			</Tile>
-			<br/> <br/>
+			<br /> <br />
 		{/if}
 	</div>
 	<div slot="below">
