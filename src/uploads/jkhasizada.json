@@ -13,6 +13,8 @@
 	"maxHp": 239,
 	"appearance": "Tall with brown hair and blue eyes",
 	"proficiencyBonus": 6,
+	"armorClass": 30,
+	"speed": 40,
 	"abilityScores": [
 		{
 			"type": "strength",

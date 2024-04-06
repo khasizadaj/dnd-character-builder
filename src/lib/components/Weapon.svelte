@@ -2,7 +2,7 @@
 	import { Restart, ChartRadar, AssemblyReference } from 'carbon-icons-svelte';
 
 	import { AttackModifiers, WeaponInfo, AbilityScore } from '$lib/types';
-	import { calculateAbilityScoreModifier } from '$lib/utils';
+	import { calculateAbilityScoreModifier, getAbilityScore, rollDie } from '$lib/utils';
 
 	import {
 		Button,
@@ -16,31 +16,16 @@
 
 	export let weapon: WeaponInfo;
 	export let character: any;
-	console.log(weapon);
-	const getAbilityScore = (ability: string, abilityScores: any[]) => {
-		console.log('Ability: ', ability);
-		console.log('Scores: ', abilityScores);
-		for (const element of abilityScores) {
-			if (element.type == ability) {
-				console.log('Gotta exit.');
-				return element;
-			}
-		}
-		console.log("Couldn't found it");
-		return null;
-	};
 
 	const attackAbilityInfo: AbilityScore | null = getAbilityScore(
 		weapon.attackAbility,
 		character.abilityScores
 	);
 
-	console.log('TEST INFO', attackAbilityInfo);
 	const attackModifiers = new AttackModifiers(
 		character.proficiencyBonus,
 		calculateAbilityScoreModifier(attackAbilityInfo?.score)
 	);
-	console.log('TEST', attackModifiers);
 
 	let data_table_rows: any = null;
 
@@ -53,26 +38,11 @@
 		}));
 	};
 
-	const rollDie = (max: number) => {
-		let result;
-		var randomBytes = new Uint8Array(4);
-		crypto.getRandomValues(randomBytes);
-		var randomInt =
-			(randomBytes[0] << 24) | (randomBytes[1] << 16) | (randomBytes[2] << 8) | randomBytes[3];
-		result = Math.floor((Math.abs(randomInt) / 0x7fffffff) * max) + 1;
-		console.log(`--:`, result);
-		return result;
-	};
-
 	const rollForAttack = (weapon: Weapon) => {
 		let attack = rollDie(20);
 		attack += weapon.modifier;
-		console.log('Weapon modifier:', weapon.modifier);
 		attack += attackModifiers.proficiency;
-		console.log('Prof. bonus:', attackModifiers.proficiency);
 		attack += attackModifiers.ability;
-		console.log('Attack ability bonus:', attackModifiers.ability);
-		console.log('Attack roll:', attack);
 		return attack;
 	};
 
@@ -92,12 +62,8 @@
 			totalDamage += roll.damage;
 		});
 		totalDamage += weapon.modifier;
-		console.log('Weapon modifier:', weapon.modifier);
 		totalDamage += attackModifiers.proficiency;
-		console.log('Prof. bonus:', attackModifiers.proficiency);
 		totalDamage += attackModifiers.ability;
-		console.log('Attack ability bonus:', attackModifiers.ability);
-		console.log('Total damage:', totalDamage);
 		return totalDamage;
 	};
 
