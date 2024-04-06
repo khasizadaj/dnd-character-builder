@@ -1,6 +1,7 @@
 <script lang="ts">
 	import 'carbon-components-svelte/css/g90.css';
-	import { fade } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
+	import { quintIn } from 'svelte/easing';
 
 	import { calculateAbilityScoreModifier, getAbilityScore, rollDie } from '$lib/utils';
 	import { Tag, ToastNotification, TooltipDefinition } from 'carbon-components-svelte';
@@ -13,6 +14,7 @@
 		getAbilityScore('dexterity', character.abilityScores).score
 	);
 
+	let notification_id = 0;
 	const handleClickOnAbility = (e: Event) => {
 		let modifier = calculateAbilityScoreModifier(
 			getAbilityScore(e.currentTarget.id, character.abilityScores).score
@@ -29,11 +31,13 @@
 		notifications = [
 			...notifications,
 			{
+				id: notification_id++,
 				lowContrast: true,
 				kind: 'info-square',
 				title: notificationTitle,
 				subtitle: notificationSubtitle,
-				hideCloseButton: false
+				hideCloseButton: true,
+				timeout: 60 * 1000
 			}
 		];
 		if (notifications.length > 3) {
@@ -49,8 +53,16 @@
 
 <div id="notifications">
 	{#each notifications as notification}
-		<div transition:fade>
-			<svelte:component this={ToastNotification} {...notification} />
+		<div transition:slide={{ axis: 'y', easing: quintIn }}>
+			<svelte:component
+				this={ToastNotification}
+				{...notification}
+				on:click={() => {
+					let index = notifications.findIndex((n) => n.id === notification.id);
+					notifications.splice(index, 1);
+					notifications = [...notifications];
+				}}
+			/>
 		</div>
 	{/each}
 </div>
