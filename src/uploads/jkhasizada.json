@@ -2,7 +2,7 @@
 	"profilePicture": "https://preview.redd.it/a6rstlmr0iq91.jpg?width=1080&crop=smart&auto=webp&s=e30b7ffe01920f9ba1cd793c96cb4612cb5d8a16",
 	"name": "Python Kei Klax",
 	"class": "Fighter & Lycanthrope",
-	"level": 13,
+	"level": 17,
 	"race": "Shifter",
 	"gender": "Female",
 	"hair_color": "Black",
@@ -91,6 +91,52 @@
 			],
 			"spells": [],
 			"modifier": 2
+		}
+	],
+	"feature_sources": [
+		{
+			"type": "class",
+			"title": "Lychantrope",
+			"features": [
+				{
+					"title": "Improved movement",
+					"accessedLevel": 2,
+					"description": [
+						"Starting at 2nd level your speed increases by 10 feet while you are transformed.",
+						"At 11th level this bonus persist in your humanoid form."
+					]
+				},
+				{
+					"title": "Hunter instinct",
+					"accessedLevel": 3,
+					"description": [
+						"Starting at 3rd level, while you attack a creature that is missing hit points you can deals an additional `1d6` to the damage.",
+						"You can use this feature once per turn."
+					]
+				},
+				{
+					"title": "Hunter instinct",
+					"accessedLevel": 15,
+					"description": [
+						"By 15th level, you've learned to absorb the fleeting magic of your echo. When an echo of yours is destroyed by taking damage, you can gain a number of temporary hit points equal to `2d6` + your `CON` modifier, provided you don't already have temporary hit points.",
+						"You can use this feature a number of times equal to your Constitution modifier (a minimum of once). You regain all expended uses when you finish a long rest."
+					]
+				}
+			]
+		},
+		{
+			"type": "subclass",
+			"title": "Abysswalker",
+			"features": [
+				{
+					"title": "Children of Darkness",
+					"accessedLevel": 3,
+					"description": [
+						"At 3rd level, you no longer have your eyes hindered by the presence of darkness. You can see through normal and magical darkness, up to a range of 120 feet.",
+						"In addition, you can use the extra action granted by your Action Surge to cast Darkness or Shadow Blade, without spending a spell slot. *The spell is cast at a level equal to your proficiency bonus, and Constitution is your spellcasting ability for this spell.* Once you cast any spell using this feature, you can't do it again until you finish a long rest."
+					]
+				}
+			]
 		}
 	]
 }

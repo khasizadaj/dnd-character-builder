@@ -5,6 +5,7 @@
 
 	import Health from '../lib/components/Health.svelte';
 	import Weapon from '$lib/components/Weapon.svelte';
+	import Features from '$lib/components/Features.svelte';
 
 	import {
 		Tag,
@@ -75,7 +76,7 @@
 					</FileUploader>
 				</Tile>
 				<div class="character-details">
-					<div class="image" style="background-image: url({character.profilePicture});"></div>
+					<div class="image" style="background-color: gray"></div>
 					<h1>{character.name}</h1>
 					<h4>
 						{character.level}th level {character.class}
@@ -100,6 +101,7 @@
 						<Weapon {weapon} {character} />
 					{/each}
 				</div>
+				<Features {character}/>
 			</Column>
 			<Column noGutter md={1} lg={2}></Column>
 		</Row>
