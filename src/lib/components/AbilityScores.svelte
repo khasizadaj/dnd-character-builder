@@ -16,14 +16,19 @@
 
 	let notification_id = 0;
 	const handleClickOnAbility = (e: Event) => {
+		let abilityScore = getAbilityScore(e.currentTarget.id, character.abilityScores); 
 		let modifier = calculateAbilityScoreModifier(
-			getAbilityScore(e.currentTarget.id, character.abilityScores).score
+			abilityScore.score
 		);
 		let dieResult = rollDie(20);
-		let rollResult = dieResult + modifier + character.proficiencyBonus;
-
+		let rollResult = dieResult + modifier;
+		if (abilityScore.proficient)
+			rollResult += character.proficiencyBonus;
+		
 		let notificationTitle = `${getShortAbilityName(e.currentTarget.id).toUpperCase()}: SAVE : ${rollResult}`;
-		let notificationSubtitle = `${dieResult} + (${modifier}) + (${character.proficiencyBonus})`;
+		let notificationSubtitle = `${dieResult} + (${modifier})`;
+		if (abilityScore.proficient)
+			notificationSubtitle +=  `+ (${character.proficiencyBonus})`;
 
 		notifications.map((notification) => {
 			notification.subtitle = '';
