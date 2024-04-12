@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Restart, ChartRadar, AssemblyReference } from 'carbon-icons-svelte';
 
-	import { AttackModifiers, WeaponInfo, AbilityScore } from '$lib/types';
+	import { AttackModifiers, WeaponInfo, AbilityScore, Dice } from '$lib/types';
 	import { calculateAbilityScoreModifier, getAbilityScore, rollDie } from '$lib/utils';
 
 	import {
@@ -38,7 +38,7 @@
 		}));
 	};
 
-	const rollForAttack = (weapon: Weapon) => {
+	const rollForAttack = (weapon: WeaponInfo) => {
 		let attack = rollDie(20);
 		attack += weapon.modifier;
 		attack += attackModifiers.proficiency;
@@ -46,9 +46,9 @@
 		return attack;
 	};
 
-	const rollForDamage = (weapon: Weapon) => {
+	const rollForDamage = (weapon: WeaponInfo) => {
 		let rolls: Object[] = [];
-		weapon.dice.forEach((die: Die) => {
+		weapon.dice.forEach((die: Dice) => {
 			for (let i = 0; i < die.count; i++) {
 				rolls.push({ type: die.type, damageType: die.damage, damage: rollDie(die.type) });
 			}

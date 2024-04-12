@@ -100,10 +100,6 @@
 	}
 
 	@media (max-width: 400px) {
-		.character-details .image {
-			width: 100%;
-		}
-	
 		.health > .damage-section {
 			flex-direction: column;
 		}

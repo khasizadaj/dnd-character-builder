@@ -76,7 +76,7 @@
 					</FileUploader>
 				</Tile>
 				<div class="character-details">
-					<div class="image" style="background-color: gray"></div>
+					<div class="image" style="background-image: url({character.profilePicture});"></div>
 					<h1>{character.name}</h1>
 					<h4>
 						{character.level}th level {character.class}
