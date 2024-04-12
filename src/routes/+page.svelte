@@ -5,6 +5,7 @@
 
 	import Health from '../lib/components/Health.svelte';
 	import Weapon from '$lib/components/Weapon.svelte';
+	import Features from '$lib/components/Features.svelte';
 
 	import {
 		Tag,
@@ -100,6 +101,7 @@
 						<Weapon {weapon} {character} />
 					{/each}
 				</div>
+				<Features {character}/>
 			</Column>
 			<Column noGutter md={1} lg={2}></Column>
 		</Row>
