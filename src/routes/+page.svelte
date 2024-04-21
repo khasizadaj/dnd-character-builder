@@ -1,12 +1,6 @@
 <script lang="ts">
-	import AbilityScores from '../lib/components/AbilityScores.svelte';
-
 	import 'carbon-components-svelte/css/g90.css';
-
-	import Health from '../lib/components/Health.svelte';
-	import Weapon from '$lib/components/Weapon.svelte';
-	import Features from '$lib/components/Features.svelte';
-
+	import { Logout } from 'carbon-icons-svelte';
 	import {
 		Tag,
 		Grid,
@@ -17,12 +11,26 @@
 		FileUploader,
 		Link,
 		Header,
-		Content
+		Content,
+		HeaderUtilities
 	} from 'carbon-components-svelte';
 
+	import { userIsAuthenticated, userStore } from '$lib/stores';
+
+	import Authentication from '../lib/components/Authentication.svelte';
+	import AbilityScores from '../lib/components/AbilityScores.svelte';
+	import Health from '../lib/components/Health.svelte';
+	import Weapon from '$lib/components/Weapon.svelte';
+	import Features from '$lib/components/Features.svelte';
+
+	import { signoutEmailPasswordFront } from '$lib/auth';
+
 	export let data;
+
 	let character = data.character;
 	let fileUploader;
+	let isSideNavOpen = false;
+	let newIsAuthenticatedValue: string;
 
 	const loadCharacterFile = (files) => {
 		const file = files.detail[0];
@@ -47,15 +55,34 @@
 		};
 		reader.readAsText(file);
 	};
-	let isSideNavOpen = false;
+
+	userIsAuthenticated.subscribe((value: string) => {
+		newIsAuthenticatedValue = value;
+	});
 </script>
 
-<Header company="DnD" platformName="Character Builder" bind:isSideNavOpen></Header>
+<Header company="DnD" platformName="Character Builder" bind:isSideNavOpen>
+	{#if newIsAuthenticatedValue == '1'}
+		<HeaderUtilities>
+			<form method="POST">
+				<Button
+					icon={Logout}
+					kind="danger"
+					iconDescription="Signout"
+					on:click={signoutEmailPasswordFront}
+				></Button>
+			</form>
+		</HeaderUtilities>
+	{/if}
+</Header>
 <Content>
 	<Grid>
 		<Row>
 			<Column noGutter md={1} lg={2}></Column>
 			<Column noGutter md={14} lg={12}>
+				{#if newIsAuthenticatedValue == '0'}
+					<Authentication />
+				{/if}
 				<Tile>
 					<FileUploader
 						bind:this={fileUploader}
@@ -65,8 +92,8 @@
 						status="complete"
 						on:change={(files) => loadCharacterFile(files)}
 					>
-						<span slot="labelDescription"
-							>Only JSON files are accepted. See sample character file
+						<span slot="labelDescription">
+							Only JSON files are accepted. See sample character file
 							<Link
 								target="_blank"
 								href="https://gist.github.com/khasizadaj/66804c314e9e31b0d148b68057e4564a"
@@ -101,7 +128,7 @@
 						<Weapon {weapon} {character} />
 					{/each}
 				</div>
-				<Features {character}/>
+				<Features {character} />
 			</Column>
 			<Column noGutter md={1} lg={2}></Column>
 		</Row>
