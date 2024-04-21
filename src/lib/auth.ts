@@ -39,3 +39,18 @@ export const signupEmailPasswordFront = async (event) => {
         }
     }
 };
+
+export const signoutEmailPasswordFront = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+
+    const res = await fetch('?/signout', {
+        method: 'POST',
+        body: formData
+    });
+
+    if (!res.ok) {
+        console.error('Failed to submit form');
+    }
+    userStore.update((value) => ({ ...value, isAuthenticated: false }));
+};

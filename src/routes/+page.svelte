@@ -1,14 +1,6 @@
 <script lang="ts">
-  import Authentication from '../lib/components/Authentication.svelte';
-
-	import AbilityScores from '../lib/components/AbilityScores.svelte';
-
 	import 'carbon-components-svelte/css/g90.css';
-
-	import Health from '../lib/components/Health.svelte';
-	import Weapon from '$lib/components/Weapon.svelte';
-	import Features from '$lib/components/Features.svelte';
-
+	import { Logout } from 'carbon-icons-svelte';
 	import {
 		Tag,
 		Grid,
@@ -20,19 +12,25 @@
 		Link,
 		Header,
 		Content,
-		FormGroup,
-		TextInput,
-		Form,
-		PasswordInput,
-		HeaderNav,
-		HeaderNavItem,
-		HeaderUtilities,
-		HeaderGlobalAction
+		HeaderUtilities
 	} from 'carbon-components-svelte';
 
+	import { userStore } from '$lib/stores';
+
+	import Authentication from '../lib/components/Authentication.svelte';
+	import AbilityScores from '../lib/components/AbilityScores.svelte';
+	import Health from '../lib/components/Health.svelte';
+	import Weapon from '$lib/components/Weapon.svelte';
+	import Features from '$lib/components/Features.svelte';
+
+	import { signoutEmailPasswordFront } from '$lib/auth';
+
 	export let data;
+
 	let character = data.character;
 	let fileUploader;
+	let isSideNavOpen = false;
+	let isAuthenticated: boolean;
 
 	const loadCharacterFile = (files) => {
 		const file = files.detail[0];
@@ -57,88 +55,23 @@
 		};
 		reader.readAsText(file);
 	};
-	let isSideNavOpen = false;
 
-	import { userStore } from '$lib/stores';
-	let email: string;
-	let password: string;
-	let isAuthenticated: boolean;
-
-	userStore.subscribe(
-		({ email: _email, isAuthenticated: _isAuthenticated, password: _password }) => {
-			email = _email;
-			password = _password;
-			isAuthenticated = _isAuthenticated;
-		}
-	);
-
-	$: emailValue = email;
-	$: passwordValue = password;
+	userStore.subscribe(({ isAuthenticated: _isAuthenticated }) => {
+		isAuthenticated = _isAuthenticated;
+	});
+	// Added reactive variable to update ui accordingly
 	$: isAuthenticatedValue = isAuthenticated;
-
-	import { Logout } from 'carbon-icons-svelte';
-
-	const signinEmailPasswordFront = async (event) => {
-		event.preventDefault();
-		const form = event.target.parentElement;
-		const formData = new FormData(form);
-
-		if (formData.get('password') && formData.get('email')) {
-			const res = await fetch('?/signin', {
-				method: form.method,
-				body: formData
-			});
-
-			if (res.ok) {
-				userStore.update((value) => ({ ...value, isAuthenticated: true }));
-			} else {
-				console.error('Failed to submit form');
-				userStore.update((value) => ({ ...value, isAuthenticated: false }));
-			}
-		}
-	};
-
-	const signoutEmailPasswordFront = async (event) => {
-		event.preventDefault();
-		const formData = new FormData();
-
-		const res = await fetch('?/signout', {
-			method: 'POST',
-			body: formData
-		});
-
-		if (!res.ok) {
-			console.error('Failed to submit form');
-		}
-		userStore.update((value) => ({ ...value, isAuthenticated: false }));
-	};
-
-	const signupEmailPasswordFront = async (event) => {
-		event.preventDefault();
-		const form = event.target.parentElement;
-		const formData = new FormData(form);
-
-		if (formData.get('password') && formData.get('email')) {
-			const res = await fetch('?/signup', {
-				method: form.method,
-				body: formData
-			});
-
-			if (res.ok) {
-				userStore.update((value) => ({ ...value, isAuthenticated: true }));
-			} else {
-				console.error('Failed to submit form');
-				userStore.update((value) => ({ ...value, isAuthenticated: false }));
-			}
-		}
-	};
 </script>
 
 <Header company="DnD" platformName="Character Builder" bind:isSideNavOpen>
 	{#if isAuthenticatedValue}
 		<HeaderUtilities>
 			<form method="POST">
-				<Button icon={Logout} kind="danger" iconDescription="Signout" on:click={signoutEmailPasswordFront}
+				<Button
+					icon={Logout}
+					kind="danger"
+					iconDescription="Signout"
+					on:click={signoutEmailPasswordFront}
 				></Button>
 			</form>
 		</HeaderUtilities>
@@ -161,8 +94,8 @@
 						status="complete"
 						on:change={(files) => loadCharacterFile(files)}
 					>
-						<span slot="labelDescription"
-							>Only JSON files are accepted. See sample character file
+						<span slot="labelDescription">
+							Only JSON files are accepted. See sample character file
 							<Link
 								target="_blank"
 								href="https://gist.github.com/khasizadaj/66804c314e9e31b0d148b68057e4564a"
