@@ -14,11 +14,9 @@ export const signinEmailPasswordFront = async (event) => {
         if (res.ok) {
             console.log("Successful login!");
             userIsAuthenticated.set('1');
-            localStorage.setItem('userIsAuthenticated', '1');
         } else {
             console.error('Failed to submit form');
             userIsAuthenticated.set('0');
-            localStorage.setItem('userIsAuthenticated', '0');
         }
     }
 };
@@ -35,11 +33,9 @@ export const signupEmailPasswordFront = async (event) => {
         });
 
         if (res.ok) {
-            localStorage.setItem('userIsAuthenticated', '1');
             userIsAuthenticated.set('1');
         } else {
             console.error('Failed to submit form');
-            localStorage.setItem('userIsAuthenticated', '0');
             userIsAuthenticated.set('0');
         }
     }
@@ -57,6 +53,5 @@ export const signoutEmailPasswordFront = async (event) => {
     if (!res.ok) {
         console.error('Failed to submit form');
     }
-    localStorage.setItem('userIsAuthenticated', '0');
     userIsAuthenticated.set('0');
 };
