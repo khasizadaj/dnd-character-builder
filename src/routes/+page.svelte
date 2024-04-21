@@ -17,7 +17,15 @@
 		FileUploader,
 		Link,
 		Header,
-		Content
+		Content,
+		FormGroup,
+		TextInput,
+		Form,
+		PasswordInput,
+		HeaderNav,
+		HeaderNavItem,
+		HeaderUtilities,
+		HeaderGlobalAction
 	} from 'carbon-components-svelte';
 
 	export let data;
@@ -48,14 +56,136 @@
 		reader.readAsText(file);
 	};
 	let isSideNavOpen = false;
+
+	import { userStore } from '$lib/stores';
+	let email: string;
+	let password: string;
+	let isAuthenticated: boolean;
+	userStore.subscribe(
+		({ email: _email, isAuthenticated: _isAuthenticated, password: _password }) => {
+			email = _email;
+			password = _password;
+			isAuthenticated = _isAuthenticated;
+		}
+	);
+
+	$: emailValue = email;
+	$: passwordValue = password;
+	$: isAuthenticatedValue = isAuthenticated;
+
+	import { Logout } from 'carbon-icons-svelte';
+
+	const signinEmailPasswordFront = async (event) => {
+		event.preventDefault();
+		const form = event.target.parentElement;
+		const formData = new FormData(form);
+
+		console.log(formData.get("email"));
+		console.log(formData.get("password"));
+		console.log(form.action);
+
+		if (formData.get('password') && formData.get('email')) {
+			const res = await fetch("?/signin", {
+				method: form.method,
+				body: formData
+			});
+
+			if (res.ok) {
+				userStore.update((value) => ({ ...value, isAuthenticated: true }));
+			} else {
+				console.error('Failed to submit form');
+				userStore.update((value) => ({ ...value, isAuthenticated: false }));
+			}
+		}
+	};
+
+	const signoutEmailPasswordFront = async (event) => {
+		event.preventDefault();
+		const formData = new FormData();
+
+		const res = await fetch("?/signout", {
+			method: "POST",
+			body: formData
+		});
+
+		if (!res.ok) {
+			console.error('Failed to submit form');
+		}
+		userStore.update((value) => ({ ...value, isAuthenticated: false }));
+	};
+
+	const signupEmailPasswordFront = async (event) => {
+		event.preventDefault();
+		const form = event.target.parentElement;
+		const formData = new FormData(form);
+
+		console.log(formData.get("email"));
+		console.log(formData.get("password"));
+		console.log(form.action);
+
+		if (formData.get('password') && formData.get('email')) {
+			const res = await fetch("?/signup", {
+				method: form.method,
+				body: formData
+			});
+
+			if (res.ok) {
+				userStore.update((value) => ({ ...value, isAuthenticated: true }));
+			} else {
+				console.error('Failed to submit form');
+				userStore.update((value) => ({ ...value, isAuthenticated: false }));
+			}
+		}
+	};
+
+	const updateEmail = () => {
+		userStore.update((value) => ({ ...value, email: emailValue }));
+	};
+	const updatePassword = () => {
+		userStore.update((value) => ({ ...value, password: passwordValue }));
+	};
 </script>
 
-<Header company="DnD" platformName="Character Builder" bind:isSideNavOpen></Header>
+<Header company="DnD" platformName="Character Builder" bind:isSideNavOpen>
+	<HeaderUtilities>
+		<form method="POST">
+			<Button icon={Logout} iconDescription="Signout" on:click={signoutEmailPasswordFront}> 
+			</Button>
+		</form>
+	</HeaderUtilities>
+</Header>
 <Content>
 	<Grid>
 		<Row>
 			<Column noGutter md={1} lg={2}></Column>
 			<Column noGutter md={14} lg={12}>
+				{#if !isAuthenticatedValue}
+					<Form id="signin-form" method="POST">
+						<h4 style="text-align: left">Sign in to save your character</h4>
+						<br />
+						<FormGroup>
+							<TextInput
+								name="email"
+								bind:value={emailValue}
+								on:change={updateEmail}
+								labelText="Email"
+								placeholder="Enter email..."
+							/>
+						</FormGroup>
+						<FormGroup>
+							<PasswordInput
+								name="password"
+								bind:value={passwordValue}
+								on:change={updatePassword}
+								labelText="Password"
+								placeholder="Enter password..."
+							/>
+						</FormGroup>
+						<Button size="field" type="submit" on:click={signinEmailPasswordFront}>Sign in</Button>
+						<Button size="field" type="submit" on:click={signupEmailPasswordFront}>Sign up</Button>
+					</Form>
+					<br />
+				{/if}
 				<Tile>
 					<FileUploader
 						bind:this={fileUploader}
@@ -101,7 +231,7 @@
 						<Weapon {weapon} {character} />
 					{/each}
 				</div>
-				<Features {character}/>
+				<Features {character} />
 			</Column>
 			<Column noGutter md={1} lg={2}></Column>
 		</Row>
