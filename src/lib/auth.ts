@@ -1,4 +1,4 @@
-import { userStore } from "./stores";
+import { userIsAuthenticated, userStore } from "./stores";
 
 export const signinEmailPasswordFront = async (event) => {
     event.preventDefault();
@@ -12,10 +12,13 @@ export const signinEmailPasswordFront = async (event) => {
         });
 
         if (res.ok) {
-            userStore.update((value) => ({ ...value, isAuthenticated: true }));
+            console.log("Successful login!");
+            userIsAuthenticated.set('1');
+            localStorage.setItem('userIsAuthenticated', '1');
         } else {
             console.error('Failed to submit form');
-            userStore.update((value) => ({ ...value, isAuthenticated: false }));
+            userIsAuthenticated.set('0');
+            localStorage.setItem('userIsAuthenticated', '0');
         }
     }
 };
@@ -32,10 +35,12 @@ export const signupEmailPasswordFront = async (event) => {
         });
 
         if (res.ok) {
-            userStore.update((value) => ({ ...value, isAuthenticated: true }));
+            localStorage.setItem('userIsAuthenticated', '1');
+            userIsAuthenticated.set('1');
         } else {
             console.error('Failed to submit form');
-            userStore.update((value) => ({ ...value, isAuthenticated: false }));
+            localStorage.setItem('userIsAuthenticated', '0');
+            userIsAuthenticated.set('0');
         }
     }
 };
@@ -52,5 +57,6 @@ export const signoutEmailPasswordFront = async (event) => {
     if (!res.ok) {
         console.error('Failed to submit form');
     }
-    userStore.update((value) => ({ ...value, isAuthenticated: false }));
+    localStorage.setItem('userIsAuthenticated', '0');
+    userIsAuthenticated.set('0');
 };

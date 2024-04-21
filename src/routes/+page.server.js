@@ -1,14 +1,7 @@
 import character from '../uploads/jkhasizada.json'
-import { userStore } from '$lib/stores'
-import { browser } from '$app/environment';
-import { loginEmailPassword, signupEmailPassword, signUserOut, monitorAuthState } from '$lib/auth.server'
+import { loginEmailPassword, signupEmailPassword, signUserOut } from '$lib/auth.server'
 
-/** @type {import('./$types').PageServerLoad} */
 export function load() {
-	let isAuthenticated = true;
-	if (browser)
-		isAuthenticated = Boolean(localStorage.getItem("user-isAuthenticated"));
-	userStore.update((value) => ({ ...value, isAuthenticated }));
 	return {
 		character: character
 	};
@@ -21,7 +14,7 @@ export const actions = {
 		let email = (await formData).get('email');
 		let password = (await formData).get('password');
 		loginEmailPassword(email, password);
-		monitorAuthState;
+		// monitorAuthState;
 		return { success: true };
 	},
 	signup: async ({ request }) => {
@@ -30,12 +23,12 @@ export const actions = {
 		let password = (await formData).get('password');
 
 		signupEmailPassword(email, password);
-		monitorAuthState;
+		// monitorAuthState;
 		return { success: true };
 	},
 	signout: async () => {
 		signUserOut();
-		monitorAuthState;
+		// monitorAuthState;
 		return { success: true };
 	}
 };

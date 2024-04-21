@@ -2,7 +2,6 @@ import { initializeApp } from "firebase/app";
 import {
     getAuth,
     onAuthStateChanged,
-    connectAuthEmulator,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     signOut
@@ -31,18 +30,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 let auth = getAuth(app);
-// use connectAuthEmulator to test locally
-connectAuthEmulator(auth, "http://localhost:9099");
 
 import { userStore } from '$lib/stores'
-
-let email: string;
-let password: string;
-
-userStore.subscribe(({ email: _email, password: _password }) => {
-    email = _email;
-    password = _password;
-});
 
 export const loginEmailPassword = async (email: string, password: string) => {
     console.log("Login called");
@@ -52,23 +41,19 @@ export const loginEmailPassword = async (email: string, password: string) => {
 export const signupEmailPassword = async (email: string, password: string) => {
     console.log("Signup called");
     await createUserWithEmailAndPassword(auth, email, password);
-    monitorAuthState();
 }
 
 export const signUserOut = async () => {
     await signOut(auth);
-    monitorAuthState();
 }
 
-export const monitorAuthState = () => {
-    onAuthStateChanged(auth, user => {
-        if (user) {
-            console.log("You are logged in.");
-            userStore.update((value) => ({ ...value, isAuthenticated: true }));
-        }
-        else {
-            console.log("Not really boi")
-            userStore.update((value) => ({ ...value, isAuthenticated: false }));
-        }
-    })
-}
+onAuthStateChanged(auth, user => {
+    if (user) {
+        console.log("You are logged in.");
+        userStore.update((value) => ({ ...value, isAuthenticated: true }));
+    }
+    else {
+        console.log("Not really boi")
+        userStore.update((value) => ({ ...value, isAuthenticated: false }));
+    }
+})

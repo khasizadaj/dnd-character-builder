@@ -15,7 +15,7 @@
 		HeaderUtilities
 	} from 'carbon-components-svelte';
 
-	import { userStore } from '$lib/stores';
+	import { userIsAuthenticated, userStore } from '$lib/stores';
 
 	import Authentication from '../lib/components/Authentication.svelte';
 	import AbilityScores from '../lib/components/AbilityScores.svelte';
@@ -30,7 +30,7 @@
 	let character = data.character;
 	let fileUploader;
 	let isSideNavOpen = false;
-	let isAuthenticated: boolean;
+	let newIsAuthenticatedValue: string;
 
 	const loadCharacterFile = (files) => {
 		const file = files.detail[0];
@@ -56,15 +56,13 @@
 		reader.readAsText(file);
 	};
 
-	userStore.subscribe(({ isAuthenticated: _isAuthenticated }) => {
-		isAuthenticated = _isAuthenticated;
+	userIsAuthenticated.subscribe((value: string) => {
+		newIsAuthenticatedValue = value;
 	});
-	// Added reactive variable to update ui accordingly
-	$: isAuthenticatedValue = isAuthenticated;
 </script>
 
 <Header company="DnD" platformName="Character Builder" bind:isSideNavOpen>
-	{#if isAuthenticatedValue}
+	{#if newIsAuthenticatedValue == '1'}
 		<HeaderUtilities>
 			<form method="POST">
 				<Button
@@ -82,7 +80,7 @@
 		<Row>
 			<Column noGutter md={1} lg={2}></Column>
 			<Column noGutter md={14} lg={12}>
-				{#if !isAuthenticatedValue}
+				{#if newIsAuthenticatedValue == '0'}
 					<Authentication />
 				{/if}
 				<Tile>
