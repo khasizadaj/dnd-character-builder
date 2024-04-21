@@ -1,7 +1,7 @@
 import character from '../uploads/jkhasizada.json'
 import { userStore } from '$lib/stores'
 import { browser } from '$app/environment';
-import { loginEmailPassword, signupEmailPassword, signUserOut, monitorAuthState } from './auth.server'
+import { loginEmailPassword, signupEmailPassword, signUserOut, monitorAuthState } from '$lib/auth.server'
 
 /** @type {import('./$types').PageServerLoad} */
 export function load() {

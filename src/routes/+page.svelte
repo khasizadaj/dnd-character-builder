@@ -138,7 +138,7 @@
 	{#if isAuthenticatedValue}
 		<HeaderUtilities>
 			<form method="POST">
-				<Button icon={Logout} iconDescription="Signout" on:click={signoutEmailPasswordFront}
+				<Button icon={Logout} kind="danger" iconDescription="Signout" on:click={signoutEmailPasswordFront}
 				></Button>
 			</form>
 		</HeaderUtilities>
