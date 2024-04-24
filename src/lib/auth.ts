@@ -10,12 +10,13 @@ export const signinEmailPasswordFront = async (event) => {
             method: form.method,
             body: formData
         });
-
-        if (res.ok) {
+        const response = await res.json()
+        let data = JSON.parse(JSON.parse(response.data));
+        if (data.status == 200) {
             console.log("Successful login!");
             userIsAuthenticated.set('1');
         } else {
-            console.error('Failed to submit form');
+            console.error('Failed to login.');
             userIsAuthenticated.set('0');
         }
     }
@@ -32,10 +33,13 @@ export const signupEmailPasswordFront = async (event) => {
             body: formData
         });
 
-        if (res.ok) {
+        const response = await res.json();
+        let data = JSON.parse(JSON.parse(response.data));
+        if (data.status == 201) {
+            console.log("Successful created account!");
             userIsAuthenticated.set('1');
         } else {
-            console.error('Failed to submit form');
+            console.error(`Failed to create account. "${data.message}"`);
             userIsAuthenticated.set('0');
         }
     }

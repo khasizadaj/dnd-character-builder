@@ -13,18 +13,15 @@ export const actions = {
 		const formData = request.formData();
 		let email = (await formData).get('email');
 		let password = (await formData).get('password');
-		loginEmailPassword(email, password);
-		// monitorAuthState;
-		return { success: true };
+		let result = await loginEmailPassword(email, password);
+		return JSON.stringify(result);
 	},
 	signup: async ({ request }) => {
 		const formData = request.formData();
 		let email = (await formData).get('email');
 		let password = (await formData).get('password');
-
-		signupEmailPassword(email, password);
-		// monitorAuthState;
-		return { success: true };
+		let result = await signupEmailPassword(email, password);
+		return JSON.stringify(result);
 	},
 	signout: async () => {
 		signUserOut();
