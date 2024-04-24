@@ -10,22 +10,45 @@ export function load() {
 /** @type {import('./$types').Actions} */
 export const actions = {
 	signin: async ({ request }) => {
-		const formData = request.formData();
-		let email = (await formData).get('email');
-		let password = (await formData).get('password');
-		let result = await loginEmailPassword(email, password);
-		return JSON.stringify(result);
+		try {
+			const formData = request.formData();
+			let email = (await formData).get('email');
+			let password = (await formData).get('password');
+			let result = await loginEmailPassword(email, password);
+			return JSON.stringify(result);
+		} catch (error) {
+			console.error("Login failed.");
+			return {
+				status: 500,
+				message: "Login failed."
+			};
+		}
 	},
 	signup: async ({ request }) => {
-		const formData = request.formData();
-		let email = (await formData).get('email');
-		let password = (await formData).get('password');
-		let result = await signupEmailPassword(email, password);
-		return JSON.stringify(result);
+		try {
+			const formData = request.formData();
+			let email = (await formData).get('email');
+			let password = (await formData).get('password');
+			let result = await signupEmailPassword(email, password);
+			return JSON.stringify(result);
+		} catch (error) {
+			console.error("Signup failed.");
+			return {
+				status: 500,
+				message: "Signup failed."
+			};
+		}
 	},
 	signout: async () => {
-		signUserOut();
-		// monitorAuthState;
-		return { success: true };
+		try {
+			let result = await signUserOut();
+			return JSON.stringify(result);
+		} catch (error) {
+			console.error("Signout failed.");
+			return {
+				status: 500,
+				message: "Signout failed."
+			};
+		}
 	}
 };

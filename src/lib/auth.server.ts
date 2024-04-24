@@ -113,7 +113,28 @@ export const signupEmailPassword = async (email: string, password: string) => {
 }
 
 export const signUserOut = async () => {
-    await signOut(auth);
+    try {
+        await signOut(auth);
+        console.log("Signout was successful.");
+        return {
+            status: 200,
+            message: "Signout was successful."
+        };
+    } catch (error) {
+        console.log("Signout failed:", error);
+
+        let errorCode = 500;
+        let errorMessage = "Failed to sign out due to a server error.";
+
+        if (error instanceof FirebaseError) {
+            errorMessage = error.message || errorMessage;
+        }
+
+        return {
+            status: errorCode,
+            message: errorMessage
+        };
+    }
 }
 
 onAuthStateChanged(auth, user => {

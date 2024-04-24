@@ -6,18 +6,22 @@ export const signinEmailPasswordFront = async (event) => {
     const formData = new FormData(form);
 
     if (formData.get('password') && formData.get('email')) {
-        const res = await fetch('?/signin', {
-            method: form.method,
-            body: formData
-        });
-        const response = await res.json()
-        let data = JSON.parse(JSON.parse(response.data));
-        if (data.status == 200) {
-            console.log("Successful login!");
-            userIsAuthenticated.set('1');
-        } else {
-            console.error('Failed to login.');
-            userIsAuthenticated.set('0');
+        try {
+            const res = await fetch('?/signin', {
+                method: form.method,
+                body: formData
+            });
+            const response = await res.json()
+            let data = JSON.parse(JSON.parse(response.data));
+            if (data.status == 200) {
+                console.log("Successful login!");
+                userIsAuthenticated.set('1');
+            } else {
+                console.error('Failed to login.');
+                userIsAuthenticated.set('0');
+            }
+        } catch (error) {
+            console.error("Failed to login.")
         }
     }
 };
@@ -28,18 +32,23 @@ export const signupEmailPasswordFront = async (event) => {
     const formData = new FormData(form);
 
     if (formData.get('password') && formData.get('email')) {
-        const res = await fetch('?/signup', {
-            method: form.method,
-            body: formData
-        });
+        try {
+            const res = await fetch('?/signup', {
+                method: form.method,
+                body: formData
+            });
 
-        const response = await res.json();
-        let data = JSON.parse(JSON.parse(response.data));
-        if (data.status == 201) {
-            console.log("Successful created account!");
-            userIsAuthenticated.set('1');
-        } else {
-            console.error(`Failed to create account. "${data.message}"`);
+            const response = await res.json();
+            let data = JSON.parse(JSON.parse(response.data));
+            if (data.status == 201) {
+                console.log("Successful created account!");
+                userIsAuthenticated.set('1');
+            } else {
+                console.error(`Failed to create account. "${data.message}"`);
+                userIsAuthenticated.set('0');
+            }
+        } catch (error) {
+            console.error("Failed to login.")
             userIsAuthenticated.set('0');
         }
     }
@@ -54,8 +63,13 @@ export const signoutEmailPasswordFront = async (event) => {
         body: formData
     });
 
-    if (!res.ok) {
-        console.error('Failed to submit form');
+    const response = await res.json();
+    let data = JSON.parse(JSON.parse(response.data));
+    if (data.status == 200) {
+        console.log(data.message);
+        userIsAuthenticated.set('0');
+    } else {
+        console.error(data.message);
+        userIsAuthenticated.set('1');
     }
-    userIsAuthenticated.set('0');
 };
