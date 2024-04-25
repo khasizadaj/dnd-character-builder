@@ -49,3 +49,7 @@ export class AbilityScore {
         this.proficient = proficient;
     }
 }
+
+export interface Config {
+    auth: boolean;
+}
