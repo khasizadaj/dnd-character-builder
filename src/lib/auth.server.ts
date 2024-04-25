@@ -34,7 +34,7 @@ const app = initializeApp(firebaseConfig);
 
 let auth = getAuth(app);
 
-import { userStore } from '$lib/stores'
+import { userIsAuthenticated } from '$lib/stores'
 
 export const loginEmailPassword = async (email: string, password: string) => {
     console.log("Login called");
@@ -140,10 +140,10 @@ export const signUserOut = async () => {
 onAuthStateChanged(auth, user => {
     if (user) {
         console.log("You are logged in.");
-        userStore.update((value) => ({ ...value, isAuthenticated: true }));
+        userIsAuthenticated.set('1');
     }
     else {
         console.log("Not really boi")
-        userStore.update((value) => ({ ...value, isAuthenticated: false }));
+        userIsAuthenticated.set('0');
     }
 })

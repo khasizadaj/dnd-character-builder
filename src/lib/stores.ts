@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
+import type { Config } from '$lib/types';
 
 export const userStore = writable({
     "email": "test@demo.xyz",
@@ -17,3 +18,7 @@ export const userIsAuthenticated = writable(isAuthenticated ? isAuthenticated : 
 if (browser) {
     userIsAuthenticated.subscribe((value) => localStorage.setItem("userIsAuthenticated", value))
 }
+
+export const config = writable<Config>({
+    "auth": false
+})

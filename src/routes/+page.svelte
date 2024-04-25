@@ -15,7 +15,7 @@
 		HeaderUtilities
 	} from 'carbon-components-svelte';
 
-	import { userIsAuthenticated, userStore } from '$lib/stores';
+	import { userIsAuthenticated, config as configStore } from '$lib/stores';
 
 	import Authentication from '../lib/components/Authentication.svelte';
 	import AbilityScores from '../lib/components/AbilityScores.svelte';
@@ -24,6 +24,7 @@
 	import Features from '$lib/components/Features.svelte';
 
 	import { signoutEmailPasswordFront } from '$lib/auth';
+	import type { Config } from '$lib/types';
 
 	export let data;
 
@@ -59,10 +60,15 @@
 	userIsAuthenticated.subscribe((value: string) => {
 		newIsAuthenticatedValue = value;
 	});
+
+	let config: Config;
+	configStore.subscribe((value: Config) => {
+		config = {...value}
+	})
 </script>
 
 <Header company="DnD" platformName="Character Builder" bind:isSideNavOpen>
-	{#if newIsAuthenticatedValue == '1'}
+	{#if config.auth && newIsAuthenticatedValue == '1'}
 		<HeaderUtilities>
 			<form method="POST">
 				<Button
@@ -80,7 +86,7 @@
 		<Row>
 			<Column noGutter md={1} lg={2}></Column>
 			<Column noGutter md={14} lg={12}>
-				{#if newIsAuthenticatedValue == '0'}
+				{#if config.auth && newIsAuthenticatedValue == '0'}
 					<Authentication />
 				{/if}
 				<Tile>
