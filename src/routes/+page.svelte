@@ -1,6 +1,4 @@
 <script lang="ts">
-	import 'carbon-components-svelte/css/g90.css';
-	import { Logout } from 'carbon-icons-svelte';
 	import {
 		Tag,
 		Grid,
@@ -10,9 +8,7 @@
 		Tile,
 		FileUploader,
 		Link,
-		Header,
 		Content,
-		HeaderUtilities
 	} from 'carbon-components-svelte';
 
 	import { userIsAuthenticated, config as configStore } from '$lib/stores';
@@ -23,14 +19,12 @@
 	import Weapon from '$lib/components/Weapon.svelte';
 	import Features from '$lib/components/Features.svelte';
 
-	import { signoutEmailPasswordFront } from '$lib/auth';
 	import type { Config } from '$lib/types';
 
 	export let data;
 
 	let character = data.character;
 	let fileUploader;
-	let isSideNavOpen = false;
 	let newIsAuthenticatedValue: string;
 
 	const loadCharacterFile = (files) => {
@@ -63,24 +57,10 @@
 
 	let config: Config;
 	configStore.subscribe((value: Config) => {
-		config = {...value}
-	})
+		config = { ...value };
+	});
 </script>
 
-<Header company="DnD" platformName="Character Builder" bind:isSideNavOpen>
-	{#if config.auth && newIsAuthenticatedValue == '1'}
-		<HeaderUtilities>
-			<form method="POST">
-				<Button
-					icon={Logout}
-					kind="danger"
-					iconDescription="Signout"
-					on:click={signoutEmailPasswordFront}
-				></Button>
-			</form>
-		</HeaderUtilities>
-	{/if}
-</Header>
 <Content>
 	<Grid>
 		<Row>
