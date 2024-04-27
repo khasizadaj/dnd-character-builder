@@ -30,18 +30,9 @@
 	});
 </script>
 
-<Header
-	company="DnD"
-	platformName="Character Builder"
-	bind:isSideNavOpen
-	href="/">
+<Header company="DnD" platformName="Character Builder" bind:isSideNavOpen href="/">
 	<HeaderUtilities>
-		<HeaderGlobalAction
-			href="user-guide"
-			iconDescription="User guide"
-			tooltipAlignment="end"
-			icon={Document}
-		/>
+		<Button kind="ghost" href="user-guide">User Guide</Button>
 		{#if config.auth && newIsAuthenticatedValue == '1'}
 			<form method="POST">
 				<Button
