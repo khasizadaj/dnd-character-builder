@@ -1,18 +1,9 @@
 <script lang="ts">
-	import 'carbon-components-svelte/css/g90.css';
-	import { Logout } from 'carbon-icons-svelte';
 	import {
 		Tag,
-		Grid,
-		Row,
-		Button,
-		Column,
 		Tile,
 		FileUploader,
 		Link,
-		Header,
-		Content,
-		HeaderUtilities
 	} from 'carbon-components-svelte';
 
 	import { userIsAuthenticated, config as configStore } from '$lib/stores';
@@ -23,14 +14,12 @@
 	import Weapon from '$lib/components/Weapon.svelte';
 	import Features from '$lib/components/Features.svelte';
 
-	import { signoutEmailPasswordFront } from '$lib/auth';
 	import type { Config } from '$lib/types';
 
 	export let data;
 
 	let character = data.character;
 	let fileUploader;
-	let isSideNavOpen = false;
 	let newIsAuthenticatedValue: string;
 
 	const loadCharacterFile = (files) => {
@@ -63,83 +52,58 @@
 
 	let config: Config;
 	configStore.subscribe((value: Config) => {
-		config = {...value}
-	})
+		config = { ...value };
+	});
 </script>
 
-<Header company="DnD" platformName="Character Builder" bind:isSideNavOpen>
-	{#if config.auth && newIsAuthenticatedValue == '1'}
-		<HeaderUtilities>
-			<form method="POST">
-				<Button
-					icon={Logout}
-					kind="danger"
-					iconDescription="Signout"
-					on:click={signoutEmailPasswordFront}
-				></Button>
-			</form>
-		</HeaderUtilities>
-	{/if}
-</Header>
-<Content>
-	<Grid>
-		<Row>
-			<Column noGutter md={1} lg={2}></Column>
-			<Column noGutter md={14} lg={12}>
-				{#if config.auth && newIsAuthenticatedValue == '0'}
-					<Authentication />
-				{/if}
-				<Tile>
-					<FileUploader
-						bind:this={fileUploader}
-						labelTitle="Add character details"
-						buttonLabel="Add file"
-						accept={['.json	']}
-						status="complete"
-						on:change={(files) => loadCharacterFile(files)}
-					>
-						<span slot="labelDescription">
-							Only JSON files are accepted. See sample character file
-							<Link
-								target="_blank"
-								href="https://gist.github.com/khasizadaj/66804c314e9e31b0d148b68057e4564a"
-								>here</Link
-							>.
-						</span>
-					</FileUploader>
-				</Tile>
-				<div class="character-details">
-					<div class="image" style="background-image: url({character.profilePicture});"></div>
-					<h1>{character.name}</h1>
-					<h4>
-						{character.level}th level {character.class}
-					</h4>
-					<div class="info">
-						<Tag size="default">Gender: {character.gender}</Tag>
-						<Tag>Race: {character.race}</Tag>
-						<Tag>Hair: {character.hair_color}</Tag>
-						<Tag>Eye color: {character.eye_color}</Tag>
-						<Tag>Skin color: {character.skin_color}</Tag>
-						<Tag>Weight: {character.weight}</Tag>
-						<Tag>Height: {character.height}</Tag>
-					</div>
-				</div>
-				<AbilityScores {data} />
-				<Health {character}></Health>
-				<div>
-					<Tile>
-						<h1>Weapons</h1>
-					</Tile>
-					{#each character.weapons as weapon}
-						<Weapon {weapon} {character} />
-					{/each}
-				</div>
-				<Features {character} />
-			</Column>
-			<Column noGutter md={1} lg={2}></Column>
-		</Row>
-	</Grid>
-</Content>
+{#if config.auth && newIsAuthenticatedValue == '0'}
+	<Authentication />
+{/if}
+<Tile>
+	<FileUploader
+		bind:this={fileUploader}
+		labelTitle="Add character details"
+		buttonLabel="Add file"
+		accept={['.json	']}
+		status="complete"
+		on:change={(files) => loadCharacterFile(files)}
+	>
+		<span slot="labelDescription">
+			Only JSON files are accepted. See sample character file
+			<Link
+				target="_blank"
+				href="https://gist.github.com/khasizadaj/66804c314e9e31b0d148b68057e4564a">here</Link
+			>.
+		</span>
+	</FileUploader>
+</Tile>
+<div class="character-details">
+	<div class="image" style="background-image: url({character.profilePicture});"></div>
+	<h1>{character.name}</h1>
+	<h4>
+		{character.level}th level {character.class}
+	</h4>
+	<div class="info">
+		<Tag size="default">Gender: {character.gender}</Tag>
+		<Tag>Race: {character.race}</Tag>
+		<Tag>Hair: {character.hair_color}</Tag>
+		<Tag>Eye color: {character.eye_color}</Tag>
+		<Tag>Skin color: {character.skin_color}</Tag>
+		<Tag>Weight: {character.weight}</Tag>
+		<Tag>Height: {character.height}</Tag>
+	</div>
+</div>
+<AbilityScores {data} />
+<Health {character}></Health>
+<div>
+	<Tile>
+		<h1>Weapons</h1>
+	</Tile>
+	{#each character.weapons as weapon}
+		<Weapon {weapon} {character} />
+	{/each}
+</div>
+<Features {character} />
 
 <style>
 	h1,

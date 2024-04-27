@@ -1,0 +1,134 @@
+{
+	"profilePicture": "https://preview.redd.it/a6rstlmr0iq91.jpg?width=1080&crop=smart&auto=webp&s=e30b7ffe01920f9ba1cd793c96cb4612cb5d8a16",
+	"name": "Python Kei Klax",
+	"class": "Fighter & Lycanthrope",
+	"level": 17,
+	"race": "Shifter",
+	"gender": "Female",
+	"hair_color": "Black",
+	"skin_color": "Gray",
+	"eye_color": "Black",
+	"height": "243",
+	"weight": "142",
+	"maxHp": 239,
+	"appearance": "Tall with brown hair and blue eyes",
+	"proficiencyBonus": 6,
+	"armorClass": 30,
+	"speed": 40,
+	"abilityScores": [
+		{
+			"type": "strength",
+			"score": 22,
+			"proficient": true
+		},
+		{
+			"type": "dexterity",
+			"score": 16,
+			"proficient": false
+		},
+		{
+			"type": "constitution",
+			"score": 22,
+			"proficient": true
+		},
+		{
+			"type": "intelligence",
+			"score": 8,
+			"proficient": false
+		},
+		{
+			"type": "wisdom",
+			"score": 14,
+			"proficient": false
+		},
+		{
+			"type": "charisma",
+			"score": 7,
+			"proficient": false
+		}
+	],
+	"weapons": [
+		{
+			"name": "Star Sickle",
+			"dice": [
+				{
+					"count": 3,
+					"type": 6,
+					"damage": "default"
+				},
+				{
+					"count": 2,
+					"type": 4,
+					"damage": "radiant"
+				}
+			],
+			"attackAbility": "strength",
+			"description": [
+				"The sickle has the finese and thrown properly (20/60). Immediately after you make a ranged attack with this waepon, it disipates into starlight and reappears in your hand.",
+				"When you the attack action, you can replace one of your weapon attacks with special realty warping ranged attack. Choose a point you can see within 30 ft. throw the sickle, Each creature within 5 ft. must succeed on a DC 17 `STR` saving throw or take *3d6* force damage as it erupts in energy, reappearing in your hand."
+			],
+			"spells": [
+				{
+					"name": "Misty Spell",
+					"url": "http: //dnd5e.wikidot.com/spell:misty-step"
+				}
+			],
+			"modifier": 3
+		},
+		{
+			"name": "Star Razor",
+			"dice": [
+				{
+					"count": 2,
+					"type": 8,
+					"damage": "radiant"
+				}
+			],
+			"attackAbility": "strength",
+			"description": [
+				"The sickle has the finese and thrown properly (20/60). Immediately after you make a ranged attack with this waepon, it disipates into starlight and reappears in your hand.",
+				"When you the attack action, you can replace one of your weapon attacks with special realty warping ranged attack. Choose a point you can see within 30 ft. throw the sickle, Each creature within 5 ft. must succeed on a DC 17 `STR` saving throw or take *3d6* force damage as it erupts in energy, reappearing in your hand."
+			],
+			"spells": [],
+			"modifier": 2
+		}
+	],
+	"feature_sources": [
+		{
+			"type": "class",
+			"title": "Lychantrope",
+			"features": [
+				{
+					"title": "Improved movement",
+					"accessedLevel": 2,
+					"description": [
+						"Starting at 2nd level your speed increases by 10 feet while you are transformed.",
+						"At 11th level this bonus persist in your humanoid form."
+					]
+				},
+				{
+					"title": "Hunter instinct",
+					"accessedLevel": 18,
+					"description": [
+						"Starting at 18th level, while you attack a creature that is missing hit points you can deals an additional `1d6` to the damage.",
+						"You can use this feature once per turn."
+					]
+				}
+			]
+		},
+		{
+			"type": "subclass",
+			"title": "Abysswalker",
+			"features": [
+				{
+					"title": "Children of Darkness",
+					"accessedLevel": 3,
+					"description": [
+						"At 3rd level, you no longer have your eyes hindered by the presence of darkness. You can see through normal and magical darkness, up to a range of 120 feet.",
+						"In addition, you can use the extra action granted by your Action Surge to cast Darkness or Shadow Blade, without spending a spell slot. *The spell is cast at a level equal to your proficiency bonus, and Constitution is your spellcasting ability for this spell.* Once you cast any spell using this feature, you can't do it again until you finish a long rest."
+					]
+				}
+			]
+		}
+	]
+}
