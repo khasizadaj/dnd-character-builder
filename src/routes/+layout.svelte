@@ -1,7 +1,16 @@
 <script lang="ts">
 	import 'carbon-components-svelte/css/g90.css';
 	import { Document, Logout } from 'carbon-icons-svelte';
-	import { Button, Header, HeaderUtilities, HeaderGlobalAction } from 'carbon-components-svelte';
+	import {
+		Button,
+		Header,
+		HeaderUtilities,
+		HeaderGlobalAction,
+		Content,
+		Grid,
+		Row,
+		Column
+	} from 'carbon-components-svelte';
 
 	import { userIsAuthenticated, config as configStore } from '$lib/stores';
 
@@ -21,7 +30,11 @@
 	});
 </script>
 
-<Header company="DnD" platformName="Character Builder" bind:isSideNavOpen>
+<Header
+	company="DnD"
+	platformName="Character Builder"
+	bind:isSideNavOpen
+	href="/">
 	<HeaderUtilities>
 		<HeaderGlobalAction
 			href="user-guide"
@@ -41,5 +54,14 @@
 		{/if}
 	</HeaderUtilities>
 </Header>
-
-<slot />
+<Content>
+	<Grid>
+		<Row>
+			<Column noGutter md={1} lg={2}></Column>
+			<Column noGutter md={14} lg={12}>
+				<slot />
+			</Column>
+			<Column noGutter md={1} lg={2}></Column>
+		</Row>
+	</Grid>
+</Content>
