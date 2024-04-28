@@ -54,7 +54,7 @@
 				{
 					"count": 3,
 					"type": 6,
-					"damage": "default"
+					"damage": "slashing"
 				},
 				{
 					"count": 2,
@@ -81,7 +81,7 @@
 				{
 					"count": 2,
 					"type": 6,
-					"damage": "default"
+					"damage": "slashing"
 				},
 				{
 					"count": 1,
@@ -124,7 +124,7 @@
 				{
 					"count": 2,
 					"type": 6,
-					"damage": "default"
+					"damage": "slashing"
 				},
 				{
 					"count": 3,
@@ -155,12 +155,12 @@
 				{
 					"count": 2,
 					"type": 10,
-					"damage": "default"
+					"damage": "slashing"
 				},
 				{
 					"count": 1,
 					"type": 6,
-					"damage": "default"
+					"damage": "slashing"
 				}
 			],
 			"attackAbility": "strength",
@@ -176,7 +176,7 @@
 				{
 					"count": 1,
 					"type": 12,
-					"damage": "default"
+					"damage": "piercing"
 				}
 			],
 			"attackAbility": "strength",
