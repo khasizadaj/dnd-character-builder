@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Restart, ChartRadar, AssemblyReference } from 'carbon-icons-svelte';
+	import { Restart, ChartRadar, AssemblyReference, Area, Calls, Moon, Sun, Monster, Subflow } from 'carbon-icons-svelte';
 
 	import { AttackModifiers, WeaponInfo, AbilityScore, Dice } from '$lib/types';
 	import { calculateAbilityScoreModifier, getAbilityScore, rollDie } from '$lib/utils';
@@ -11,6 +11,7 @@
 		ListItem,
 		Tag,
 		Tile,
+		TooltipDefinition,
 		UnorderedList
 	} from 'carbon-components-svelte';
 
@@ -78,9 +79,33 @@
 		<h3>{weapon.name}</h3>
 		{#each weapon.dice as die}
 			{#if die.damage == 'default'}
-				<Tag icon={AssemblyReference}>{die.count}d{die.type}</Tag>
+				<Tag icon={AssemblyReference}>
+					Default: {die.count}d{die.type}
+				</Tag>
+			{:else if die.damage == 'slashing'}
+				<Tag icon={Moon}>
+					Slashing: {die.count}d{die.type}
+				</Tag>
+			{:else if die.damage == 'bludgeoning'}
+				<Tag icon={Area}>
+					Bludgeoning: {die.count}d{die.type}
+				</Tag>
+			{:else if die.damage == 'piercing'}
+				<Tag icon={Calls}>
+					Piercing: {die.count}d{die.type}
+				</Tag>
 			{:else if die.damage == 'radiant'}
-				<Tag icon={ChartRadar}>{die.count}d{die.type}</Tag>
+				<Tag icon={Sun}>
+					Radiant: {die.count}d{die.type}
+				</Tag>
+			{:else if die.damage == 'necrotic'}
+				<Tag icon={Monster}>
+					Necrotic: {die.count}d{die.type}
+				</Tag>
+			{:else if die.damage == 'force'}
+				<Tag icon={Subflow}>
+					Force: {die.count}d{die.type}
+				</Tag>
 			{/if}
 		{/each}
 		<Tag type="green">+{weapon.modifier}</Tag>
