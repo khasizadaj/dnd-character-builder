@@ -2,7 +2,7 @@
 	"profilePicture": "https://preview.redd.it/a6rstlmr0iq91.jpg?width=1080&crop=smart&auto=webp&s=e30b7ffe01920f9ba1cd793c96cb4612cb5d8a16",
 	"name": "Python Kei Klax",
 	"class": "Fighter & Lycanthrope",
-	"level": 17,
+	"level": 20,
 	"race": "Shifter",
 	"gender": "Female",
 	"hair_color": "Black",
@@ -23,7 +23,7 @@
 		},
 		{
 			"type": "dexterity",
-			"score": 16,
+			"score": 18,
 			"proficient": false
 		},
 		{
@@ -76,6 +76,32 @@
 			"modifier": 3
 		},
 		{
+			"name": "Greatsword of Artorius",
+			"dice": [
+				{
+					"count": 2,
+					"type": 6,
+					"damage": "default"
+				},
+				{
+					"count": 1,
+					"type": 6,
+					"damage": "radiant"
+				},
+				{
+					"count": 1,
+					"type": 6,
+					"damage": "necrotic"
+				}
+			],
+			"attackAbility": "strength",
+			"description": [
+				""
+			],
+			"spells": [],
+			"modifier": 2
+		},
+		{
 			"name": "Star Razor",
 			"dice": [
 				{
@@ -88,6 +114,74 @@
 			"description": [
 				"The sickle has the finese and thrown properly (20/60). Immediately after you make a ranged attack with this waepon, it disipates into starlight and reappears in your hand.",
 				"When you the attack action, you can replace one of your weapon attacks with special realty warping ranged attack. Choose a point you can see within 30 ft. throw the sickle, Each creature within 5 ft. must succeed on a DC 17 `STR` saving throw or take *3d6* force damage as it erupts in energy, reappearing in your hand."
+			],
+			"spells": [],
+			"modifier": 2
+		},
+		{
+			"name": "Greatsword of Artorius [against undead & demons]",
+			"dice": [
+				{
+					"count": 2,
+					"type": 6,
+					"damage": "default"
+				},
+				{
+					"count": 3,
+					"type": 6,
+					"damage": "radiant"
+				},
+				{
+					"count": 1,
+					"type": 6,
+					"damage": "necrotic"
+				},
+				{
+					"count": 1,
+					"type": 8,
+					"damage": "force"
+				}
+			],
+			"attackAbility": "strength",
+			"description": [
+				""
+			],
+			"spells": [],
+			"modifier": 2
+		},
+		{
+			"name": "Claw",
+			"dice": [
+				{
+					"count": 2,
+					"type": 10,
+					"damage": "default"
+				},
+				{
+					"count": 1,
+					"type": 6,
+					"damage": "default"
+				}
+			],
+			"attackAbility": "strength",
+			"description": [
+				""
+			],
+			"spells": [],
+			"modifier": 2
+		},
+		{
+			"name": "Bite",
+			"dice": [
+				{
+					"count": 1,
+					"type": 12,
+					"damage": "default"
+				}
+			],
+			"attackAbility": "strength",
+			"description": [
+				""
 			],
 			"spells": [],
 			"modifier": 2
