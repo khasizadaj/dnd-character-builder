@@ -193,6 +193,30 @@
 			"title": "Lychantrope",
 			"features": [
 				{
+					"title": "Feral Form",
+					"accessedLevel": 1,
+					"description": [
+						"During your turn, you can transform using a bonus action, granting resistance to non-magical and non-silvered bludgeoning, piercing, and slashing damage while transformed.",
+						"You can't cast spells or speak. Transforming breaks your concentration on a spell you've already cast.",
+						"Your Armor Class equals 10 + (2 x <CON> modifier).",
+						"Your equipment merges into your new form, however you retain the effect of the magic items you are attuned with.",
+						"Your claws become natural weapons that deal *2d8* + your `STR` modifier slashing damage.",
+						"Your bite become a natural weapon that deals *1d10* + your `STR` modifier piercing damage.",
+						"You can choose to become one size larger.",
+						"If you don't already have it, you gain dark vision out to a range of 60 feet.",
+						"You have advantage on `WIS` (Perception) checks that rely on hearing or smell.",
+						"Your hit point maximum increases by 3 x your Lycanthrope level.",
+						"The transformation last 10 minutes and you can revert to your normal form earlier by using a bonus action. Once you have transformed the maximum number of times for your lycanthrope level, you must finish a long rest before you can transform again."
+					]
+				},
+				{
+					"title": "Regeneration",
+					"accessedLevel": 1,
+					"description": [
+						"Using a bonus action, you can regenerate non-silvered damage by rolling <5d4>."
+					]
+				},
+				{
 					"title": "Improved movement",
 					"accessedLevel": 2,
 					"description": [
@@ -209,11 +233,57 @@
 					]
 				},
 				{
-					"title": "Hunter instinct",
-					"accessedLevel": 15,
+					"title": "Primordial strength",
+					"accessedLevel": 6,
 					"description": [
-						"By 15th level, you've learned to absorb the fleeting magic of your echo. When an echo of yours is destroyed by taking damage, you can gain a number of temporary hit points equal to `2d6` + your `CON` modifier, provided you don't already have temporary hit points.",
-						"You can use this feature a number of times equal to your Constitution modifier (a minimum of once). You regain all expended uses when you finish a long rest."
+						"Starting at 6th level, your unarmed strikes and natural weapons count as magical for the purpose of overcoming resistance and immunity to nonmagical attacks and damage."
+					]
+				},
+				{
+					"title": "Feral instinct",
+					"accessedLevel": 7,
+					"description": [
+						"Starting at 7th level you have blindsight with a range of 10 feet.",
+						"Within that range, you can effectively see anything that isn't behind total cover, even if you're blinded or in darkness.",
+						"Moreover, you can see an invisible creature within that range, unless the creature successfully hides from you."
+					]
+				},
+				{
+					"title": "Improved critical",
+					"accessedLevel": 9,
+					"description": [
+						"Starting at 9th level your attacks score a critical hit on a roll of `19` or `20`. ",
+						"Additionally starting at 15th level, your attacks score a critical hit on a roll of 18-20."
+					]
+				},
+				{
+					"title": "Natural Weapons",
+					"accessedLevel": 11,
+					"description": [
+						"Starting at 11th level your claws damage becomes die a `d8` and your bite damage die becomes a `d10`."
+					]
+				},
+				{
+					"title": "Onslaught",
+					"accessedLevel": 13,
+					"description": [
+						"Starting at 15th level when you move at least 20 ft. straight toward a creature and then hits it with a claw attack on the same turn, that target must succeed on a `STR` saving throw or be knocked prone. The DC of the saving throw is the following.",
+						"> Onslaught DC = 8 + `PROF` + `STR`",
+						"If the target is prone, you can take a bonus action to make one bite attack against it."
+					]
+				},
+				{
+					"title": "Feral constitution",
+					"accessedLevel": 17,
+					"description": [
+						"Starting at 17th level while transformed and drop to 0 hit points You automatically revert to your humanoid form with 1 hit point. After you use this privilege you can do a disengage action by spending you reaction."
+					]
+				},
+				{
+					"title": "Indomitable savagery",
+					"accessedLevel": 18,
+					"description": [
+						"Starting at 18th level you have a +2 bonus to attack and damage rolls made with your claw and bite attack."
 					]
 				}
 			]
