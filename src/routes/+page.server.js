@@ -1,9 +1,11 @@
-import character from '../uploads/jkhasizada.json'
-import { loginEmailPassword, signupEmailPassword, signUserOut } from '$lib/auth.server'
+import default_character from '../uploads/jkhasizada.json'
+import { loginEmailPassword, signupEmailPassword, signUserOut, auth } from '$lib/auth.server'
 
-export function load() {
+export async function load({ request }) {
+	let user = auth.currentUser;
 	return {
-		character: character
+		user: user?.toJSON(),
+		character: default_character
 	};
 }
 

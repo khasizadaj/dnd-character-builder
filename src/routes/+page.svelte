@@ -8,6 +8,8 @@
 
 	import { userIsAuthenticated, config as configStore } from '$lib/stores';
 
+	import { onMount } from 'svelte';
+
 	import Authentication from '../lib/components/Authentication.svelte';
 	import AbilityScores from '../lib/components/AbilityScores.svelte';
 	import Health from '../lib/components/Health.svelte';
@@ -18,7 +20,17 @@
 
 	export let data;
 
+	let user = data.user;
 	let character = data.character;
+	onMount(() => {
+		if (!user?.isAnonymous) {
+			fetch(`/character`).then((response) => {
+				response.json().then((response) => {
+					character = { ...character, ...response }
+				});
+			});
+		}
+	})
 	let fileUploader;
 	let newIsAuthenticatedValue: string;
 

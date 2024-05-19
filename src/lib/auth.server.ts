@@ -1,14 +1,16 @@
 import { initializeApp } from "firebase/app";
 import { FirebaseError } from "firebase/app";
 
+import { userIsAuthenticated } from '$lib/stores';
+
 import {
     getAuth,
     onAuthStateChanged,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
-    signOut,
-    connectAuthEmulator
+    signOut
 } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 import {
     FIREBASE_API_KEY,
@@ -31,10 +33,8 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
-let auth = getAuth(app);
-
-import { userIsAuthenticated } from '$lib/stores'
+export const auth = getAuth(app);
+export const firestore = getFirestore(app);
 
 export const loginEmailPassword = async (email: string, password: string) => {
     console.log("Login called");
@@ -147,3 +147,5 @@ onAuthStateChanged(auth, user => {
         userIsAuthenticated.set('0');
     }
 })
+
+// onAuthStateChanged(auth);
