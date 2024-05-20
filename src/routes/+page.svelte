@@ -1,10 +1,5 @@
 <script lang="ts">
-	import {
-		Tag,
-		Tile,
-		FileUploader,
-		Link,
-	} from 'carbon-components-svelte';
+	import { Tag, Tile, FileUploader, Link } from 'carbon-components-svelte';
 
 	import { userIsAuthenticated, config as configStore } from '$lib/stores';
 
@@ -21,16 +16,16 @@
 	export let data;
 
 	let user = data.user;
-	let character = data.character;
+	$: character = data.character;
 	onMount(() => {
 		if (!user?.isAnonymous) {
 			fetch(`/character`).then((response) => {
 				response.json().then((response) => {
-					character = { ...character, ...response }
+					character = { ...character, ...response };
 				});
 			});
 		}
-	})
+	});
 	let fileUploader;
 	let newIsAuthenticatedValue: string;
 
@@ -105,7 +100,7 @@
 		<Tag>Height: {character.height}</Tag>
 	</div>
 </div>
-<AbilityScores {data} />
+<AbilityScores {character} />
 <Health {character}></Health>
 <div>
 	<Tile>
