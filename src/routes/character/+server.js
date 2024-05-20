@@ -11,6 +11,9 @@ export async function GET() {
         }
         let characterDocRef = doc(firestore, `/users/${user?.uid}/data/characterDetails`)
         let characterDoc = await getDoc(characterDocRef);
+        if (!characterDoc.exists()) {
+            return json({});
+        }
         return json(characterDoc.data());
     } catch (error) {
         console.log(`Error happened. ${error}`)

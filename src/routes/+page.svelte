@@ -17,6 +17,7 @@
 
 	let user = data.user;
 	$: character = data.character;
+
 	onMount(() => {
 		if (!user?.isAnonymous) {
 			fetch(`/character`)
@@ -24,6 +25,7 @@
 					response
 						.json()
 						.then((response) => {
+							console.log('Character:', response);
 							character = { ...character, ...response };
 						})
 						.catch((error) => {

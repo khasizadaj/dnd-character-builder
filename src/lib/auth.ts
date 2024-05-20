@@ -1,3 +1,4 @@
+import { goto } from "$app/navigation";
 import { userIsAuthenticated, userStore } from "./stores";
 
 export const signinEmailPasswordFront = async (event) => {
@@ -16,9 +17,11 @@ export const signinEmailPasswordFront = async (event) => {
             if (data.status == 200) {
                 console.log("Successful login!");
                 userIsAuthenticated.set('1');
+                window.location.href = '/';
             } else {
                 console.error('Failed to login.');
                 userIsAuthenticated.set('0');
+                window.location.href = '/';
             }
         } catch (error) {
             console.error("Failed to login.")

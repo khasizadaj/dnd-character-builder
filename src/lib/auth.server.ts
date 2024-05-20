@@ -147,5 +147,3 @@ onAuthStateChanged(auth, user => {
         userIsAuthenticated.set('0');
     }
 })
-
-// onAuthStateChanged(auth);
