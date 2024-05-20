@@ -19,11 +19,20 @@
 	$: character = data.character;
 	onMount(() => {
 		if (!user?.isAnonymous) {
-			fetch(`/character`).then((response) => {
-				response.json().then((response) => {
-					character = { ...character, ...response };
+			fetch(`/character`)
+				.then((response) => {
+					response
+						.json()
+						.then((response) => {
+							character = { ...character, ...response };
+						})
+						.catch((error) => {
+							console.error('Error fetching character:', error);
+						});
+				})
+				.catch((error) => {
+					console.error('Error fetching character:', error);
 				});
-			});
 		}
 	});
 	let fileUploader;
