@@ -80,19 +80,21 @@
 <Tile>
 	<FileUploader
 		bind:this={fileUploader}
-		labelTitle="Add character details"
+		labelTitle="Add your character"
 		buttonLabel="Add file"
 		accept={['.json	']}
 		status="complete"
 		on:change={(files) => loadCharacterFile(files)}
 	>
-		<span slot="labelDescription">
+		<article slot="labelDescription">
 			Only JSON files are accepted. See sample character file
 			<Link
 				target="_blank"
 				href="https://gist.github.com/khasizadaj/66804c314e9e31b0d148b68057e4564a">here</Link
 			>.
-		</span>
+			<p style="font-size: inherit"><strong>[ NOTE ]</strong> Currently sample data is loaded from example character of mine.
+			</p>
+		</article>
 	</FileUploader>
 </Tile>
 <div class="character-details">
