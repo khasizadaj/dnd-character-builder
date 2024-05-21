@@ -4,12 +4,11 @@
 		ListItem,
 		Tag,
 		Tile,
-		TooltipDefinition,
 		UnorderedList
 	} from 'carbon-components-svelte';
 
 	export let character;
-	const feature_sources = character.feature_sources;
+	$: feature_sources = character.feature_sources;
 </script>
 
 <div>

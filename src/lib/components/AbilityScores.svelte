@@ -7,8 +7,7 @@
 	import { Tag, ToastNotification, TooltipDefinition } from 'carbon-components-svelte';
 	import { Badge, IbmWatsonMachineLearning, ManageProtection, Running } from 'carbon-icons-svelte';
 
-	export let data;
-	let character = data.character;
+	export let character;
 
 	const initiative = calculateAbilityScoreModifier(
 		getAbilityScore('dexterity', character.abilityScores).score

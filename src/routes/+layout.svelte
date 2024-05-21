@@ -1,6 +1,6 @@
 <script lang="ts">
 	import 'carbon-components-svelte/css/g90.css';
-	import { Document, Logout } from 'carbon-icons-svelte';
+	import { CirclePacking, Document, Logout } from 'carbon-icons-svelte';
 	import {
 		Button,
 		Header,
@@ -33,6 +33,7 @@
 <Header company="DnD" platformName="Character Builder" bind:isSideNavOpen href="/">
 	<HeaderUtilities>
 		<Button kind="ghost" href="user-guide">User Guide</Button>
+		<Button kind="ghost" icon={CirclePacking} iconDescription="Profile" disabled></Button>
 		{#if config.auth && newIsAuthenticatedValue == '1'}
 			<form method="POST">
 				<Button

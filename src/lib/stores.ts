@@ -20,5 +20,5 @@ if (browser) {
 }
 
 export const config = writable<Config>({
-    "auth": false
+    "auth": true
 })
