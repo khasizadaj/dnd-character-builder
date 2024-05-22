@@ -51,6 +51,19 @@
 				}
 				const jsonData = JSON.parse(fileContent);
 				character = jsonData;
+				if (!user.isAnonymous) {
+					fetch('/character', {
+						method: 'POST',
+						headers: {
+							'Content-type': 'application/json'
+						},
+						body: JSON.stringify(character)
+					}).then((response) => {
+						if (!response.ok) {
+							console.log('Failed to save character.');
+						}
+					});
+				}
 			} catch (e) {
 				console.error('Error parsing JSON:', e);
 				return;
@@ -92,7 +105,8 @@
 				target="_blank"
 				href="https://gist.github.com/khasizadaj/66804c314e9e31b0d148b68057e4564a">here</Link
 			>.
-			<p style="font-size: inherit"><strong>[ NOTE ]</strong> Currently sample data is loaded from example character of mine.
+			<p style="font-size: inherit">
+				<strong>[ NOTE ]</strong> Currently sample data is loaded from example character of mine.
 			</p>
 		</article>
 	</FileUploader>
