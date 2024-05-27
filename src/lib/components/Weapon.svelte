@@ -1,7 +1,16 @@
 <script lang="ts">
-	import { Restart, ChartRadar, AssemblyReference, Area, Calls, Moon, Sun, Monster, Subflow } from 'carbon-icons-svelte';
+	import {
+		Restart,
+		AssemblyReference,
+		Area,
+		Calls,
+		Moon,
+		Sun,
+		Monster,
+		Subflow
+	} from 'carbon-icons-svelte';
 
-	import { AttackModifiers, WeaponInfo, AbilityScore, Dice } from '$lib/types';
+	import { AttackModifiers, WeaponInfo, AbilityScore, Dice, AttackResult } from '$lib/types';
 	import { calculateAbilityScoreModifier, getAbilityScore, rollDie } from '$lib/utils';
 
 	import {
@@ -11,7 +20,6 @@
 		ListItem,
 		Tag,
 		Tile,
-		TooltipDefinition,
 		UnorderedList
 	} from 'carbon-components-svelte';
 
@@ -40,11 +48,13 @@
 	};
 
 	const rollForAttack = (weapon: WeaponInfo) => {
-		let attack = rollDie(20);
-		attack += weapon.modifier;
-		attack += attackModifiers.proficiency;
-		attack += attackModifiers.ability;
-		return attack;
+		let roll = rollDie(20);
+		return new AttackResult(
+			roll,
+			weapon.modifier,
+			attackModifiers.proficiency,
+			attackModifiers.ability
+		);
 	};
 
 	const rollForDamage = (weapon: WeaponInfo) => {
@@ -68,9 +78,11 @@
 		return totalDamage;
 	};
 
+	
+
 	let totalDamage: number;
 	let damageRolls: Object[];
-	let attackResult: number;
+	let attackResult: AttackResult;
 	let resultIsShown = false;
 </script>
 
@@ -138,7 +150,11 @@
 		<br /> <br />
 		{#if resultIsShown}
 			<Tile light>
-				<p>Roll: {attackResult}</p>
+				<p>
+					Roll: {attackResult.total()} [ {attackResult.roll} (1d20) + {attackResult.weaponModifier} (Wep.
+					mod.) + {attackResult.abilityModifier} (Abil. mod.) + {attackResult.proficiencyBonus} (Prof.
+					bonus) ]
+				</p>
 				<p>Total Damage: {totalDamage}</p>
 				<br />
 				<DataTable
