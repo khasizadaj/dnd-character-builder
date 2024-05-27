@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Tag, Tile, FileUploader, Link } from 'carbon-components-svelte';
+	import { Tag, Tile, FileUploader, Link, Tabs, Tab, TabContent } from 'carbon-components-svelte';
 
 	import { userIsAuthenticated, config as configStore } from '$lib/stores';
 
@@ -115,15 +115,21 @@
 </div>
 <AbilityScores {character} />
 <Health {character}></Health>
-<div>
-	<Tile>
-		<h1>Weapons</h1>
-	</Tile>
-	{#each character.weapons as weapon}
-		<Weapon {weapon} {character} />
-	{/each}
-</div>
-<Features {character} />
+
+<Tabs>
+	<Tab label="1. Weapons" />
+	<Tab label="2. Features" />
+	<svelte:fragment slot="content">
+		<TabContent>
+			{#each character.weapons as weapon}
+				<Weapon {weapon} {character} />
+			{/each}
+		</TabContent>
+		<TabContent>
+			<Features {character} />
+		</TabContent>
+	</svelte:fragment>
+</Tabs>
 
 <style>
 	h1,
