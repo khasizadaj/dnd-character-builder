@@ -43,11 +43,34 @@ export class AbilityScore {
     score: number;
     proficient: boolean;
 
-    constructor (type: string, score: number, proficient: boolean) {
+    constructor(type: string, score: number, proficient: boolean) {
         this.type = type;
         this.score = score;
         this.proficient = proficient;
     }
+}
+
+export class AttackResult {
+    roll: number;
+    weaponModifier: number;
+    proficiencyBonus: number;
+    abilityModifier: number;
+
+    constructor(
+        roll: number,
+        weaponModifier: number,
+        proficiencyBonus: number,
+        abilityModifier: number
+    ) {
+        this.roll = roll;
+        this.weaponModifier = weaponModifier;
+        this.proficiencyBonus = proficiencyBonus;
+        this.abilityModifier = abilityModifier;
+    }
+
+    total = () => {
+        return this.roll + this.weaponModifier + this.abilityModifier + this.proficiencyBonus;
+    };
 }
 
 export interface Config {
