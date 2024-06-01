@@ -1,6 +1,6 @@
 <script lang="ts">
 	import 'carbon-components-svelte/css/g90.css';
-	import { CirclePacking, Logout } from 'carbon-icons-svelte';
+	import { Logout, UserAvatar } from 'carbon-icons-svelte';
 	import {
 		Button,
 		Header,
@@ -15,6 +15,8 @@
 
 	import { signoutEmailPasswordFront } from '$lib/auth';
 	import type { Config } from '$lib/types';
+
+	import { page } from '$app/stores';
 
 	let isSideNavOpen = false;
 	let newIsAuthenticatedValue: string;
@@ -32,7 +34,9 @@
 <Header company="DnD" platformName="Character Builder" bind:isSideNavOpen href="/">
 	<HeaderUtilities>
 		<Button kind="ghost" href="user-guide">User Guide</Button>
-		<Button kind="ghost" icon={CirclePacking} iconDescription="Profile" disabled></Button>
+		<Button kind="primary" href="/profile" icon={UserAvatar} iconDescription="Profile">
+			{$page.data.user.email.split("@")[0].toUpperCase()}
+		</Button>
 		{#if config.auth && newIsAuthenticatedValue == '1'}
 			<form method="POST">
 				<Button
