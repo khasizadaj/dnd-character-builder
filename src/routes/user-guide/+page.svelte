@@ -2,6 +2,8 @@
 	import { Breadcrumb, BreadcrumbItem, ListItem, UnorderedList } from 'carbon-components-svelte';
 	import { WeaponInfo } from '$lib/types';
 
+	export let data;
+
 	import Weapon from '$lib/components/Weapon.svelte';
 
 	import character from '$lib/assets/demo-character.json';
