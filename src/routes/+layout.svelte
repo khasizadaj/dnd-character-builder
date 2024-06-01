@@ -1,11 +1,10 @@
 <script lang="ts">
 	import 'carbon-components-svelte/css/g90.css';
-	import { CirclePacking, Document, Logout } from 'carbon-icons-svelte';
+	import { CirclePacking, Logout } from 'carbon-icons-svelte';
 	import {
 		Button,
 		Header,
 		HeaderUtilities,
-		HeaderGlobalAction,
 		Content,
 		Grid,
 		Row,
