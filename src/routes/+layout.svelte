@@ -29,15 +29,22 @@
 	configStore.subscribe((value: Config) => {
 		config = { ...value };
 	});
+
+	if ($page.data.user) {
+		console.log("User data: ", $page.data.user);
+	}
+	else {
+		console.log("No user data / User not logged in.");
+	}
 </script>
 
 <Header company="DnD" platformName="Character Builder" bind:isSideNavOpen href="/">
 	<HeaderUtilities>
 		<Button kind="ghost" href="user-guide">User Guide</Button>
-		<Button kind="primary" href="/profile" icon={UserAvatar} iconDescription="Profile">
-			{$page.data.user.email.split("@")[0].toUpperCase()}
-		</Button>
 		{#if config.auth && newIsAuthenticatedValue == '1'}
+			<Button kind="primary" href="/profile" icon={UserAvatar} iconDescription="Profile">
+				{$page.data.user.email.split("@")[0].toUpperCase()}
+			</Button>
 			<form method="POST">
 				<Button
 					icon={Logout}
