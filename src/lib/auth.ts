@@ -1,6 +1,3 @@
-import { goto } from "$app/navigation";
-import { userIsAuthenticated, userStore } from "./stores";
-
 export const signinEmailPasswordFront = async (event) => {
     event.preventDefault();
     const form = event.target.parentElement;
@@ -16,11 +13,9 @@ export const signinEmailPasswordFront = async (event) => {
             let data = JSON.parse(JSON.parse(response.data));
             if (data.status == 200) {
                 console.log("Successful login!");
-                userIsAuthenticated.set('1');
                 window.location.href = '/';
             } else {
                 console.error('Failed to login.');
-                userIsAuthenticated.set('0');
                 window.location.href = '/';
             }
         } catch (error) {
@@ -45,14 +40,11 @@ export const signupEmailPasswordFront = async (event) => {
             let data = JSON.parse(JSON.parse(response.data));
             if (data.status == 201) {
                 console.log("Successful created account!");
-                userIsAuthenticated.set('1');
             } else {
                 console.error(`Failed to create account. "${data.message}"`);
-                userIsAuthenticated.set('0');
             }
         } catch (error) {
             console.error("Failed to login.")
-            userIsAuthenticated.set('0');
         }
     }
 };
@@ -68,11 +60,11 @@ export const signoutEmailPasswordFront = async (event) => {
 
     const response = await res.json();
     let data = JSON.parse(JSON.parse(response.data));
+    console.log(data.message);
     if (data.status == 200) {
-        console.log(data.message);
-        userIsAuthenticated.set('0');
+        window.location.href = '/';
     } else {
-        console.error(data.message);
-        userIsAuthenticated.set('1');
+        console.log(data.message);
+        window.location.href = '/';
     }
 };

@@ -29,7 +29,6 @@ export async function POST({ request }) {
         if (!user?.isAnonymous) {
             try {
                 let data = await request.json()
-                console.log(data)
                 let characterDocRef = doc(firestore, `/users/${user?.uid}/data/characterDetails`)
                 await setDoc(characterDocRef, data);
             } catch (error) {

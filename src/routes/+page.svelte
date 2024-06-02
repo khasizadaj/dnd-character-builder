@@ -1,9 +1,16 @@
 <script lang="ts">
-	import { Tag, Tile, FileUploader, Link, Tabs, Tab, TabContent } from 'carbon-components-svelte';
+	import {
+		Tag,
+		Tile,
+		FileUploader,
+		Link,
+		Tabs,
+		Tab,
+		TabContent,
+		Loading
+	} from 'carbon-components-svelte';
 
-	import { userIsAuthenticated, config as configStore } from '$lib/stores';
-
-	import { onMount } from 'svelte';
+	import { config as configStore } from '$lib/stores';
 
 	import Authentication from '../lib/components/Authentication.svelte';
 	import AbilityScores from '../lib/components/AbilityScores.svelte';
@@ -14,31 +21,13 @@
 	import type { Config } from '$lib/types';
 
 	export let data;
+	import { page } from '$app/stores';
 
-	let user = data.user;
-	$: character = data.character;
+	let { character } = data;
 
-	onMount(() => {
-		if (!user?.isAnonymous) {
-			fetch(`/character`)
-				.then((response) => {
-					response
-						.json()
-						.then((response) => {
-							console.log('Character:', response);
-							character = { ...character, ...response };
-						})
-						.catch((error) => {
-							console.error('Error fetching character:', error);
-						});
-				})
-				.catch((error) => {
-					console.error('Error fetching character:', error);
-				});
-		}
-	});
+	$: user = data.user;
+
 	let fileUploader;
-	let newIsAuthenticatedValue: string;
 
 	const loadCharacterFile = (files) => {
 		const file = files.detail[0];
@@ -77,19 +66,16 @@
 		reader.readAsText(file);
 	};
 
-	userIsAuthenticated.subscribe((value: string) => {
-		newIsAuthenticatedValue = value;
-	});
-
 	let config: Config;
 	configStore.subscribe((value: Config) => {
 		config = { ...value };
 	});
 </script>
 
-{#if config.auth && newIsAuthenticatedValue == '0'}
+{#if config.auth && !$page.data.user}
 	<Authentication />
 {/if}
+
 <Tile>
 	<FileUploader
 		bind:this={fileUploader}
@@ -111,39 +97,48 @@
 		</article>
 	</FileUploader>
 </Tile>
-<div class="character-details">
-	<div class="image" style="background-image: url({character.profilePicture});"></div>
-	<h1>{character.name}</h1>
-	<h4>
-		{character.level}th level {character.class}
-	</h4>
-	<div class="info">
-		<Tag size="default">Gender: {character.gender}</Tag>
-		<Tag>Race: {character.race}</Tag>
-		<Tag>Hair: {character.hair_color}</Tag>
-		<Tag>Eye color: {character.eye_color}</Tag>
-		<Tag>Skin color: {character.skin_color}</Tag>
-		<Tag>Weight: {character.weight}</Tag>
-		<Tag>Height: {character.height}</Tag>
-	</div>
-</div>
-<AbilityScores {character} />
-<Health {character}></Health>
 
-<Tabs>
-	<Tab label="1. Weapons" />
-	<Tab label="2. Features" />
-	<svelte:fragment slot="content">
-		<TabContent>
-			{#each character.weapons as weapon}
-				<Weapon {weapon} {character} />
-			{/each}
-		</TabContent>
-		<TabContent>
-			<Features {character} />
-		</TabContent>
-	</svelte:fragment>
-</Tabs>
+{#await character}
+	<div class="loading">
+		<Loading withOverlay={false} />
+	</div>
+{:then character}
+	<div class="character-details">
+		<div class="image" style="background-image: url({character.profilePicture});"></div>
+		<h1>{character.name}</h1>
+		<h4>
+			{character.level}th level {character.class}
+		</h4>
+		<div class="info">
+			<Tag size="default">Gender: {character.gender}</Tag>
+			<Tag>Race: {character.race}</Tag>
+			<Tag>Hair: {character.hair_color}</Tag>
+			<Tag>Eye color: {character.eye_color}</Tag>
+			<Tag>Skin color: {character.skin_color}</Tag>
+			<Tag>Weight: {character.weight}</Tag>
+			<Tag>Height: {character.height}</Tag>
+		</div>
+	</div>
+	<AbilityScores {character} />
+	<Health {character}></Health>
+
+	<Tabs>
+		<Tab label="1. Weapons" />
+		<Tab label="2. Features" />
+		<svelte:fragment slot="content">
+			<TabContent>
+				{#each character.weapons as weapon}
+					<Weapon {weapon} {character} />
+				{/each}
+			</TabContent>
+			<TabContent>
+				<Features {character} />
+			</TabContent>
+		</svelte:fragment>
+	</Tabs>
+{:catch error}
+	<h2>Error loading character. Please, refresh the page.</h2>
+{/await}
 
 <style>
 	h1,
@@ -176,6 +171,10 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		gap: 12px;
+	}
+
+	.loading {
+		margin-block: 4rem;
 	}
 
 	@media (max-width: 400px) {

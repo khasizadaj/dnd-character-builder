@@ -1,8 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { FirebaseError } from "firebase/app";
 
-import { userIsAuthenticated } from '$lib/stores';
-
 import {
     getAuth,
     onAuthStateChanged,
@@ -140,10 +138,8 @@ export const signUserOut = async () => {
 onAuthStateChanged(auth, user => {
     if (user) {
         console.log("You are logged in.");
-        userIsAuthenticated.set('1');
     }
     else {
         console.log("Not really boi")
-        userIsAuthenticated.set('0');
     }
 })
