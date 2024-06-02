@@ -11,7 +11,7 @@
 		Column
 	} from 'carbon-components-svelte';
 
-	import { userIsAuthenticated, config as configStore } from '$lib/stores';
+	import { config as configStore } from '$lib/stores';
 
 	import { signoutEmailPasswordFront } from '$lib/auth';
 	import type { Config } from '$lib/types';
@@ -19,11 +19,6 @@
 	import { page } from '$app/stores';
 
 	let isSideNavOpen = false;
-	let newIsAuthenticatedValue: string;
-
-	userIsAuthenticated.subscribe((value: string) => {
-		newIsAuthenticatedValue = value;
-	});
 
 	let config: Config;
 	configStore.subscribe((value: Config) => {
@@ -31,19 +26,18 @@
 	});
 
 	if ($page.data.user) {
-		console.log("User data: ", $page.data.user);
-	}
-	else {
-		console.log("No user data / User not logged in.");
+		console.log('User logged in.');
+	} else {
+		console.log('No user data / User not logged in.');
 	}
 </script>
 
 <Header company="DnD" platformName="Character Builder" bind:isSideNavOpen href="/">
 	<HeaderUtilities>
-		<Button kind="ghost" href="user-guide">User Guide</Button>
-		{#if config.auth && newIsAuthenticatedValue == '1'}
+		<Button kind="ghost" href="/user-guide">User Guide</Button>
+		{#if config.auth && $page.data.user && !$page.data.user?.isAnonymous}
 			<Button kind="primary" href="/profile" icon={UserAvatar} iconDescription="Profile">
-				{$page.data.user.email.split("@")[0].toUpperCase()}
+				{$page.data.user.email.split('@')[0].toUpperCase()}
 			</Button>
 			<form method="POST">
 				<Button
