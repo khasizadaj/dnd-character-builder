@@ -48,7 +48,7 @@
 						body: JSON.stringify(jsonData)
 					}).then((response) => {
 						if (!response.ok) {
-							console.log('Failed to save character.');
+							console.error('Failed to save character.');
 							characterDetails = new Promise(function (resolve) {
 								resolve({
 									isSample: true,
