@@ -1,15 +1,38 @@
 import default_character from '../uploads/jkhasizada.json'
-import { loginEmailPassword, signupEmailPassword, signUserOut, auth } from '$lib/auth.server'
+import { auth } from '$lib/auth.server'
 
 export async function load({ fetch }) {
 	let user = auth.currentUser;
+
 	const fetchCharacter = async (user) => {
-		if (!user) return default_character;
+		if (!user) {
+			return new Promise(function (resolve) {
+				resolve({
+					isSample: true,
+					data: default_character
+				});
+			});
+		}
 
 		let res = await fetch(`/character`);
 		let character = await res.json();
-		return character;
+		if (res.status === 200) {
+			console.log(character);
+			return new Promise(function (resolve) {
+				resolve({
+					isSample: false,
+					data: character.data
+				});
+			});
+		};
+		return new Promise(function (resolve) {
+			resolve({
+				isSample: false,
+				data: null
+			});
+		});
 	}
+
 	return {
 		user: user?.toJSON(),
 		character: fetchCharacter(user)

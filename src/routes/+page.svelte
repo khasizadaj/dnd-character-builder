@@ -23,7 +23,7 @@
 	export let data;
 	import { page } from '$app/stores';
 
-	let { character } = data;
+	let { character: characterDetails } = data;
 
 	$: user = data.user;
 
@@ -39,18 +39,21 @@
 					return;
 				}
 				const jsonData = JSON.parse(fileContent);
-				character = jsonData;
+				characterDetails = jsonData;
 				if (!user.isAnonymous) {
 					fetch('/character', {
 						method: 'POST',
 						headers: {
 							'Content-type': 'application/json'
 						},
-						body: JSON.stringify(character)
+						body: JSON.stringify(characterDetails)
 					}).then((response) => {
 						if (!response.ok) {
 							console.log('Failed to save character.');
+							return;
 						}
+						console.log('Character saved successfully.');
+						window.location.reload();
 					});
 				}
 			} catch (e) {
@@ -98,44 +101,58 @@
 	</FileUploader>
 </Tile>
 
-{#await character}
+{#await characterDetails}
 	<div class="loading">
 		<Loading withOverlay={false} />
 	</div>
-{:then character}
-	<div class="character-details">
-		<div class="image" style="background-image: url({character.profilePicture});"></div>
-		<h1>{character.name}</h1>
-		<h4>
-			{character.level}th level {character.class}
-		</h4>
-		<div class="info">
-			<Tag size="default">Gender: {character.gender}</Tag>
-			<Tag>Race: {character.race}</Tag>
-			<Tag>Hair: {character.hair_color}</Tag>
-			<Tag>Eye color: {character.eye_color}</Tag>
-			<Tag>Skin color: {character.skin_color}</Tag>
-			<Tag>Weight: {character.weight}</Tag>
-			<Tag>Height: {character.height}</Tag>
+{:then characterDetails}
+	{#if characterDetails.isSample == true && $page.data.user}
+		<Tile>You are seeing sample character data. Please, upload your own character file.</Tile>
+	{/if}
+	{#if characterDetails.data == null && $page.data.user}
+		<br>
+		<Tile
+			>Your character hasn't been saved in database because of internal issue. Please, upload it
+			again.</Tile
+		>
+	{:else}
+		<div class="character-details">
+			<div
+				class="image"
+				style="background-image: url({characterDetails.data.profilePicture});"
+			></div>
+			<h1>{characterDetails.data.name}</h1>
+			<h4>
+				{characterDetails.data.level}th level {characterDetails.data.class}
+			</h4>
+			<div class="info">
+				<Tag size="default">Gender: {characterDetails.data.gender}</Tag>
+				<Tag>Race: {characterDetails.data.race}</Tag>
+				<Tag>Hair: {characterDetails.data.hair_color}</Tag>
+				<Tag>Eye color: {characterDetails.data.eye_color}</Tag>
+				<Tag>Skin color: {characterDetails.data.skin_color}</Tag>
+				<Tag>Weight: {characterDetails.data.weight}</Tag>
+				<Tag>Height: {characterDetails.data.height}</Tag>
+			</div>
 		</div>
-	</div>
-	<AbilityScores {character} />
-	<Health {character}></Health>
+		<AbilityScores character={characterDetails.data} />
+		<Health character={characterDetails.data}></Health>
 
-	<Tabs>
-		<Tab label="1. Weapons" />
-		<Tab label="2. Features" />
-		<svelte:fragment slot="content">
-			<TabContent>
-				{#each character.weapons as weapon}
-					<Weapon {weapon} {character} />
-				{/each}
-			</TabContent>
-			<TabContent>
-				<Features {character} />
-			</TabContent>
-		</svelte:fragment>
-	</Tabs>
+		<Tabs>
+			<Tab label="1. Weapons" />
+			<Tab label="2. Features" />
+			<svelte:fragment slot="content">
+				<TabContent>
+					{#each characterDetails.data.weapons as weapon}
+						<Weapon {weapon} character={characterDetails.data} />
+					{/each}
+				</TabContent>
+				<TabContent>
+					<Features character={characterDetails.data} />
+				</TabContent>
+			</svelte:fragment>
+		</Tabs>
+	{/if}
 {:catch error}
 	<h2>Error loading character. Please, refresh the page.</h2>
 {/await}
