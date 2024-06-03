@@ -39,7 +39,12 @@
 					return;
 				}
 				const jsonData = JSON.parse(fileContent);
-				characterDetails = jsonData;
+				characterDetails = new Promise(function (resolve) {
+					resolve({
+						isSample: true,
+						data: jsonData
+					});
+				});
 				if (!user.isAnonymous) {
 					fetch('/character', {
 						method: 'POST',
@@ -110,7 +115,7 @@
 		<Tile>You are seeing sample character data. Please, upload your own character file.</Tile>
 	{/if}
 	{#if characterDetails.data == null && $page.data.user}
-		<br>
+		<br />
 		<Tile
 			>Your character hasn't been saved in database because of internal issue. Please, upload it
 			again.</Tile
