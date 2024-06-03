@@ -70,11 +70,12 @@ export const signupEmailPassword = async (email: string, password: string) => {
     console.log("Signup called");
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        console.log("Signup successful:", userCredential.user);
 
         return {
             status: 201,
-            email: userCredential.user.email,
+            data: {
+                user: userCredential.user.toJSON()
+            },
             message: "Signup successful."
         };
     } catch (error) {
@@ -105,6 +106,7 @@ export const signupEmailPassword = async (email: string, password: string) => {
 
         return {
             status: errorCode,
+            data: null,
             message: errorMessage
         };
     }
