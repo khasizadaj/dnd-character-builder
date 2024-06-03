@@ -17,7 +17,6 @@ export async function GET() {
                 }
             );
         }
-        console.log(characterDoc.exists())
         return json(
             {
                 status: 200,
