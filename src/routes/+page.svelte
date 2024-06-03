@@ -39,28 +39,33 @@
 					return;
 				}
 				const jsonData = JSON.parse(fileContent);
-				characterDetails = new Promise(function (resolve) {
-					resolve({
-						isSample: true,
-						data: jsonData
-					});
-				});
-				if (!user.isAnonymous) {
+				if ($page.data.user) {
 					fetch('/character', {
 						method: 'POST',
 						headers: {
 							'Content-type': 'application/json'
 						},
-						body: JSON.stringify(characterDetails)
+						body: JSON.stringify(jsonData)
 					}).then((response) => {
 						if (!response.ok) {
 							console.log('Failed to save character.');
+							characterDetails = new Promise(function (resolve) {
+								resolve({
+									isSample: true,
+									data: null
+								});
+							});
 							return;
 						}
-						console.log('Character saved successfully.');
-						window.location.reload();
+						console.log('Character saved to database successfully.');
 					});
 				}
+				characterDetails = new Promise(function (resolve) {
+					resolve({
+						isSample: false,
+						data: jsonData
+					});
+				});
 			} catch (e) {
 				console.error('Error parsing JSON:', e);
 				return;
@@ -116,10 +121,7 @@
 	{/if}
 	{#if characterDetails.data == null && $page.data.user}
 		<br />
-		<Tile
-			>Your character hasn't been saved in database because of internal issue. Please, upload it
-			again.</Tile
-		>
+		<Tile>Your character hasn't been saved in database. Please, upload it again.</Tile>
 	{:else}
 		<div class="character-details">
 			<div

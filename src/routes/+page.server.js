@@ -17,7 +17,6 @@ export async function load({ fetch }) {
 		let res = await fetch(`/character`);
 		let character = await res.json();
 		if (res.status === 200) {
-			console.log(character);
 			return new Promise(function (resolve) {
 				resolve({
 					isSample: false,
