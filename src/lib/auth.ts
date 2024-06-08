@@ -12,13 +12,13 @@ export const signinEmailPasswordFront = async (event) => {
             const data = await res.json()
             if (data.status == 200) {
                 console.log("Successful login!");
-                window.location.href = '/';
+                window.location.href = '/app';
             } else {
                 console.error('Failed to login because of status.');
-                window.location.href = '/';
+                window.location.href = '/app';
             }
         } catch (error) {
-            console.error("Failed to login cuz of error.")
+            console.error("Failed to login cuz of error.", error)
         }
     }
 };
@@ -37,10 +37,10 @@ export const signupEmailPasswordFront = async (event) => {
             const data = await res.json();
             if (data.status == 201) {
                 console.log("Successful created account!");
-                window.location.href = '/';
+                window.location.href = '/app';
             } else {
                 console.error(`Failed to create account. "${data.message}"`);
-                window.location.href = '/';
+                window.location.href = '/app';
             }
         } catch (error) {
             console.error("Failed to login.")

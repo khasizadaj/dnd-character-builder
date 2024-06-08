@@ -1,8 +1,8 @@
 <script lang="ts">
-	import "../app.css";
-
 	import 'carbon-components-svelte/css/g90.css';
-	import { Logout, UserAvatar } from 'carbon-icons-svelte';
+	import '../app.css';
+
+	import { ArrowRight, Logout, UserAvatar } from 'carbon-icons-svelte';
 	import {
 		Button,
 		Header,
@@ -49,6 +49,8 @@
 					on:click={signoutEmailPasswordFront}
 				></Button>
 			</form>
+		{:else}
+			<Button icon={ArrowRight} href="/account/signin">Get started now</Button>
 		{/if}
 	</HeaderUtilities>
 </Header>
