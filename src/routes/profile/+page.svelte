@@ -12,7 +12,7 @@
 
 <div>
     <h1>Profile is under construction ...</h1>
-    <Button kind="primary" icon={Return} href="/">
+    <Button kind="primary" icon={Return} href="/app">
         Go back
     </Button>
 </div>
