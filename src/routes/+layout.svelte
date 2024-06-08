@@ -1,4 +1,6 @@
 <script lang="ts">
+	import "../app.css";
+
 	import 'carbon-components-svelte/css/g90.css';
 	import { Logout, UserAvatar } from 'carbon-icons-svelte';
 	import {

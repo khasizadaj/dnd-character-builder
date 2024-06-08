@@ -7,8 +7,12 @@
 		Tabs,
 		Tab,
 		TabContent,
-		Loading
+		Loading,
+		Button,
+		UnorderedList,
+		ListItem
 	} from 'carbon-components-svelte';
+	import { ArrowDownRight, ToolKit, WatsonHealthBrushFreehand } from 'carbon-icons-svelte';
 
 	import { config as configStore } from '$lib/stores';
 
@@ -84,6 +88,67 @@
 		config = { ...value };
 	});
 </script>
+
+<section class="mt-16 mb-28">
+	<h2 class="mb-4 text-4xl">Unleash Your Inner Hero with the DnD Character Builder!</h2>
+	<p class="mb-4 text-base">
+		Elevate your Dungeons & Dragons experience with our intuitive Character Builder. Craft unique
+		characters effortlessly and access powerful in-game tools to enhance your adventures.
+	</p>
+	<Button size="field" icon={ArrowDownRight}>Get started now</Button>
+</section>
+
+<section class="mb-4">
+	<h2 class="mb-4 text-2xl">Why Choose the DnD Character Builder?</h2>
+	<div class="flex gap-4 flex-col md:flex-row">
+		<Tile class="flex-1">
+			<WatsonHealthBrushFreehand size={24} class="mb-2" />
+			<h4 class="mb-1 text-lg font-bold text-left">Effortless Customization</h4>
+			<p class="text-base">Create distinct characters without the hassle</p>
+		</Tile>
+		<Tile class="flex-1">
+			<ToolKit size={24} class="mb-2" />
+			<h4 class="mb-1 text-lg font-bold text-left">Game-Ready Tools</h4>
+			<p class="text-base">Enhance your gameplay with essential, easy-to-use tools.</p>
+		</Tile>
+	</div>
+</section>
+
+<section>
+	<h3>Our Top Features</h3>
+	<br />
+	<UnorderedList expressive>
+		<ListItem
+			><strong>Health Points Tracker:</strong> Effortlessly monitor your character's health, adjust HP
+			with a click, and reset after rests for fast-paced combat.</ListItem
+		>
+		<ListItem
+			><strong>Weapon Manager:</strong> Master your attacks! View your weapon stats, let the tool roll
+			for you, and get detailed breakdowns of attack and damage results.</ListItem
+		>
+		<ListItem
+			><strong>Ability Tracker:</strong> Keep tabs on your character's skills and abilities.</ListItem
+		>
+	</UnorderedList>
+	<br />
+	<br />
+
+	<Tile>
+		<h4>New tools are on the way</h4>
+		<p>Exciting new tools are on the way to make your gameplay even more immersive. Stay tuned!</p>
+	</Tile>
+	<br />
+	<br />
+</section>
+
+<section class="hero-section">
+	<h2 class="hero-heading">
+		Ready to streamline your D&D adventures? Dive in and simplify your journey!
+	</h2>
+	<Button size="field" icon={ArrowDownRight}>Get started now!</Button>
+	<br />
+	<br />
+</section>
 
 {#if config.auth && !$page.data.user}
 	<Authentication />
@@ -165,9 +230,20 @@
 {/await}
 
 <style>
-	h1,
+	/* h1,
 	h4 {
 		text-align: center;
+	} */
+
+	.hero-section {
+		margin-bottom: 1rem;
+	}
+	.hero-heading {
+		margin-bottom: 1rem;
+	}
+
+	.hero-paragraph {
+		margin-bottom: 0.5rem;
 	}
 
 	.character-details {
