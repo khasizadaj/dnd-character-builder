@@ -48,7 +48,7 @@
 		for you, and get detailed breakdowns of attack and damage results.</ListItem
 	>
 	<ListItem
-		><strong>Ability Tracker:</strong> Keep tabs on your character's skills and abilities (coming soon!).</ListItem
+		><strong>Ability Tracker:</strong> Keep tabs on your character's skills and abilities.</ListItem
 	>
 </UnorderedList>
 <br />
