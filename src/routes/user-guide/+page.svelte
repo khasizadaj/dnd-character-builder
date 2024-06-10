@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { Breadcrumb, BreadcrumbItem, ListItem, UnorderedList } from 'carbon-components-svelte';
+	import {
+		Breadcrumb,
+		BreadcrumbItem,
+		ListItem,
+		OrderedList,
+		UnorderedList
+	} from 'carbon-components-svelte';
 	import { WeaponInfo } from '$lib/types';
 
 	import Weapon from '$lib/components/Weapon.svelte';
@@ -7,160 +13,108 @@
 	import character from '$lib/assets/demo-character.json';
 	import Features from '$lib/components/Features.svelte';
 	import Health from '$lib/components/Health.svelte';
+	import { InformationSquareFilled } from 'carbon-icons-svelte';
 	const sampleWeapon: WeaponInfo = character.weapons[0];
 </script>
 
-<Breadcrumb noTrailingSlash>
+<Breadcrumb noTrailingSlash class="mb-8">
 	<BreadcrumbItem href="/">Home</BreadcrumbItem>
 	<BreadcrumbItem href="/user-guide" isCurrentPage>User Guide</BreadcrumbItem>
 </Breadcrumb>
-<br />
 
-<h1>Welcome to the DnD Character Builder!</h1>
-<br />
-<p>
-	Get ready to streamline your Dungeons & Dragons experience and create awesome custom characters
-	with ease! Our DnD Character Builder takes the hassle out of character management and empowers you
-	with handy in-game tools.
-</p>
-<br />
+<section class="mb-16 text-base">
+	<h1 class="mb-4 text-4xl">Welcome to the DnD Character Builder!</h1>
+	<p>
+		The DnD Character Builder streamlines your Dungeons & Dragons experience by allowing you to
+		create, customize, and manage your character effortlessly using a JSON file. Our tool enhances
+		your gameplay and simplifies character management.
+	</p>
+</section>
+<section class="mb-16 text-base">
+	<h2 class="mb-4 text-3xl">Introduction</h2>
+	<div class="mb-4">
+		<h3 class="mb-4 text-2xl">Purpose</h3>
+		<p>
+			Our tool empowers you to quickly build and manage your D&D character with ease, ensuring a
+			seamless and enjoyable experience.
+		</p>
+	</div>
+	<div class="mb-4">
+		<h3 class="mb-4 text-2xl">What You Need</h3>
+		<p>
+			To make the most of the DnD Character Builder, you will need a JSON file containing your
+			character's data. This file serves as the foundation for all the tools and features available
+			within the builder. For those new to JSON files, we've provided a sample character to help you
+			get started.
+		</p>
+	</div>
+	<div class="mb-4 p-4 bg-emerald-700 w-full h-full">
+		<InformationSquareFilled size={24} class="mb-2" />
+		<h4 class="mb-1 text-lg font-bold text-left">Limited To Single Character</h4>
+		<p>
+			At the moment, the DnD Character Builder supports only one character at a time. This ensures a
+			focused and detailed character management experience, though support for multiple characters
+			may be added in the future.
+		</p>
+	</div>
+	<div>
+		<p>
+			Ready to dive in? Let's simplify your D&D adventures and bring your character to life with the
+			DnD Character Builder!
+		</p>
+	</div>
+</section>
 
-<h2>Why use the DnD Character Builder?</h2>
-<br />
-<UnorderedList expressive>
-	<ListItem>
-		Effortless Customization: Build unique D&D characters without the tedious number-crunching.
-		Game-ready
-	</ListItem>
-	<ListItem>Tools: Access essential tools at your fingertips to enhance your gameplay.</ListItem>
-</UnorderedList>
-<br />
+<section class="mb-16 text-base">
+	<h2 class="mb-4 text-3xl">Getting started</h2>
+	<div class="mb-4">
+		<h3 class="mb-4 text-2xl">Account setup</h3>
+		<p class="mb-4">
+			To begin using the DnD Character Builder, you need to create an account. Follow these simple
+			steps to get started:
+		</p>
+		<OrderedList expressive class="ml-6">
+			<ListItem
+				>Go to our <a
+					href="/account/signup"
+					class="text-blue-400 hover:underline decoration-blue-400 hover:underline-offset-2"
+					>Signup</a
+				> page.</ListItem
+			>
+			<ListItem>Create account by providing email and password.</ListItem>
+			<ListItem>Return to the application and log in using your email and password.</ListItem>
+		</OrderedList>
+	</div>
+</section>
 
-<h2>Features</h2>
-<br />
-<UnorderedList expressive>
-	<ListItem
-		><strong>Health Points Tracker:</strong> Effortlessly monitor your character's health, adjust HP
-		with a click, and reset after rests for fast-paced combat.</ListItem
-	>
-	<ListItem
-		><strong>Weapon Manager:</strong> Master your attacks! View your weapon stats, let the tool roll
-		for you, and get detailed breakdowns of attack and damage results.</ListItem
-	>
-	<ListItem
-		><strong>Ability Tracker:</strong> Keep tabs on your character's skills and abilities.</ListItem
-	>
-</UnorderedList>
-<br />
-
-<p>Ready to dive in? Get started and simplify your D&D adventures!</p>
-<br />
-
-<h3>Keep Track of Your Health, Not the Math</h3>
-<br />
-
-<p>
-	The Health Points Tracker makes managing your character's health a breeze in Dungeons & Dragons.
-	Here's how:
-</p>
-
-<Health {character} />
-<br />
-
-<UnorderedList expressive>
-	<ListItem
-		><strong>Simple at a Glance:</strong> See your character's current HP and their max HP in one clear
-		spot.</ListItem
-	>
-	<ListItem><strong>Damage and Healing Made Easy:</strong></ListItem>
-	<UnorderedList expressive nested>
-		<ListItem>Took a hit? Tap the "Damage" button to quickly subtract HP.</ListItem>
-		<ListItem>Received a healing spell? Press "Heal" to add HP back.</ListItem>
-	</UnorderedList>
-	<ListItem
-		><strong>Full Reset, Fast:</strong> Need a quick refresh after a rest? Hit the "Restore HP" button
-		to instantly set your HP back to its maximum.</ListItem
-	>
-</UnorderedList>
-<br />
-
-<p>Forget complicated calculations and focus on staying alive during those intense D&D battles!</p>
-<br />
-
-<h3>Master Your Combat with the Weapon Manager</h3>
-<br />
-
-<p>
-	Are you tired of fumbling with dice and calculating damage during combat? The Weapon Manager is
-	your solution!
-</p>
-<br />
-
-<Weapon weapon={sampleWeapon} {character} />
-<br />
-
-<UnorderedList expressive>
-	<ListItem
-		><strong>Your Weapons at a Glance:</strong> Easily view all your character's weapons, each with a
-		clear display of its name, attack dice, modifier, and damage type (indicated by handy icons).</ListItem
-	>
-	<ListItem
-		><strong>Detailed Weapon Info:</strong> Need a refresher? Click a weapon for a full description,
-		perfect for those with special properties.</ListItem
-	>
-	<ListItem
-		><strong>Attack with a Click:</strong> Ready to attack? Click the "Attack" button and let the Weapon
-		Manager handle the rest! It'll roll the dice for you and deliver a full breakdown of the results,
-		including:</ListItem
-	>
-	<UnorderedList expressive nested>
-		<ListItem><em>Attack Roll:</em> Did you hit? Find out instantly!</ListItem>
-		<ListItem><em>Total Damage:</em> See the total damage you dealt with one look.</ListItem>
-		<ListItem
-			><em>Damage Breakdown:</em> Understand exactly how your damage was calculated – dice rolls, damage
-			types, and any extra modifiers!</ListItem
-		>
-	</UnorderedList>
-</UnorderedList>
-<br />
-
-<p>
-	With the Weapon Manager, you'll spend less time on the mechanics and more time strategizing your
-	next epic move!
-</p>
-<br />
-
-<h3>Track Your Abilities with Ease</h3>
-<br />
-
-<p>
-	The Ability Tracker is your go-to resource for managing and understanding all your character's
-	abilities in Dungeons & Dragons. Here's what it does for you:
-</p>
-
-<Features {character} />
-<br />
-
-<br />
-
-<UnorderedList expressive>
-	<ListItem
-		><strong>All Abilities in One Place:</strong> See every ability your character possesses, neatly
-		organized and showing whether it comes from your class or subclass.</ListItem
-	>
-	<ListItem
-		><strong>Handles Multiple Classes:</strong> Got a character with a mix of classes or subclasses?
-		No problem! The Ability Tracker keeps everything sorted.</ListItem
-	>
-	<ListItem
-		><strong>Plan Ahead:</strong> The tracker marks abilities you haven't unlocked yet, often with a
-		dimmed appearance and a level tag (like "6th Lvl"). This helps you anticipate your character's future
-		powers!</ListItem
-	>
-</UnorderedList>
-
-<style>
-	.feature-showcase {
-		width: 100%;
-	}
-</style>
+<section class="text-base">
+	<h2 class="mb-4 text-3xl">Using character builder</h2>
+	<div class="mb-4">
+		<h3 class="mb-4 text-2xl">User interface overview</h3>
+		<div class="mb-4 p-4 bg-orange-600 w-full h-full flex gap-2 items-center">
+			<InformationSquareFilled size={24} class="" />
+			<h4 class="text-lg font-bold text-left">Coming soon ...</h4>
+		</div>
+	</div>
+	<div class="mb-4">
+		<h3 class="mb-4 text-2xl">How to create character</h3>
+		<div class="mb-4 p-4 bg-orange-600 w-full h-full flex gap-2 items-center">
+			<InformationSquareFilled size={24} class="" />
+			<h4 class="text-lg font-bold text-left">Coming soon ...</h4>
+		</div>
+	</div>
+	<div class="mb-4">
+		<h3 class="mb-4 text-2xl">How to modify character</h3>
+		<div class="mb-4 p-4 bg-orange-600 w-full h-full flex gap-2 items-center">
+			<InformationSquareFilled size={24} class="" />
+			<h4 class="text-lg font-bold text-left">Coming soon ...</h4>
+		</div>
+	</div>
+	<div class="mb-4">
+		<h3 class="mb-4 text-2xl">In-game tools</h3>
+		<div class="mb-4 p-4 bg-orange-600 w-full h-full flex gap-2 items-center">
+			<InformationSquareFilled size={24} class="" />
+			<h4 class="text-lg font-bold text-left">Coming soon ...</h4>
+		</div>
+	</div>
+</section>
