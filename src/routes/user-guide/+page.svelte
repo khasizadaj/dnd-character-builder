@@ -14,6 +14,8 @@
 	import Features from '$lib/components/Features.svelte';
 	import Health from '$lib/components/Health.svelte';
 	import { InformationSquareFilled } from 'carbon-icons-svelte';
+	import AbilityScores from '$lib/components/AbilityScores.svelte';
+	import CharacterDetails from '$lib/components/CharacterDetails.svelte';
 	const sampleWeapon: WeaponInfo = character.weapons[0];
 </script>
 
@@ -91,9 +93,27 @@
 	<h2 class="mb-4 text-3xl">Using character builder</h2>
 	<div class="mb-4">
 		<h3 class="mb-4 text-2xl">User interface overview</h3>
-		<div class="mb-4 p-4 bg-orange-600 w-full h-full flex gap-2 items-center">
-			<InformationSquareFilled size={24} class="" />
-			<h4 class="text-lg font-bold text-left">Coming soon ...</h4>
+		<div class="mb-4">
+			<h4 class="mb-4 text-xl">Basic information</h4>
+			<p class="mb-4">
+				On this part of the application you can find basic information about your character:
+			</p>
+			<OrderedList expressive class="ml-6">
+				<ListItem>Picture of your character</ListItem>
+				<ListItem>Name of your character</ListItem>
+				<ListItem>Level & Class name</ListItem>
+				<ListItem>Race & Appearance details</ListItem>
+				<ListItem>Ability scores</ListItem>
+				<ListItem>Proficiency bonus & AC & Speed & Initiative</ListItem>
+			</OrderedList>
+		</div>
+		<div class="border-solid border-emerald-700 border-2">
+			<div class="mb-8 flex items-center gap-2 p-4 border-b-2 border-solid border-emerald-700">
+				<InformationSquareFilled size={24} class="text-emerald-700" />
+				<h5 class="text-lg text-emerald-700">Sample</h5>
+			</div>
+			<CharacterDetails {character}></CharacterDetails>
+			<AbilityScores {character}></AbilityScores>
 		</div>
 	</div>
 	<div class="mb-4">
