@@ -21,6 +21,7 @@
 
 	import { config as configStore } from '$lib/stores';
 
+	import CharacterDetails from '$lib/components/CharacterDetails.svelte';
 	import Authentication from '$lib/components/Authentication.svelte';
 	import AbilityScores from '$lib/components/AbilityScores.svelte';
 	import Health from '$lib/components/Health.svelte';
@@ -126,25 +127,7 @@
 		<br />
 		<Tile>Your character hasn't been saved in database. Please, upload it again.</Tile>
 	{:else}
-		<div class="character-details">
-			<div
-				class="image"
-				style="background-image: url({characterDetails.data.profilePicture});"
-			></div>
-			<h1>{characterDetails.data.name}</h1>
-			<h4>
-				{characterDetails.data.level}th level {characterDetails.data.class}
-			</h4>
-			<div class="info">
-				<Tag size="default">Gender: {characterDetails.data.gender}</Tag>
-				<Tag>Race: {characterDetails.data.race}</Tag>
-				<Tag>Hair: {characterDetails.data.hair_color}</Tag>
-				<Tag>Eye color: {characterDetails.data.eye_color}</Tag>
-				<Tag>Skin color: {characterDetails.data.skin_color}</Tag>
-				<Tag>Weight: {characterDetails.data.weight}</Tag>
-				<Tag>Height: {characterDetails.data.height}</Tag>
-			</div>
-		</div>
+		<CharacterDetails character={characterDetails.data}></CharacterDetails>
 		<AbilityScores character={characterDetails.data} />
 		<Health character={characterDetails.data}></Health>
 
@@ -168,45 +151,7 @@
 {/await}
 
 <style>
-	/* h1,
-	h4 {
-		text-align: center;
-	} */
-
-	.character-details {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-		gap: 1rem;
-		margin: 1rem;
-	}
-
-	.character-details .image {
-		background-size: cover;
-		width: 400px;
-		max-width: 100%;
-		aspect-ratio: 1/1;
-		border-radius: 16px;
-		overflow: hidden;
-		margin-bottom: 24px;
-	}
-
-	.character-details .info {
-		margin-top: 1rem;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 12px;
-	}
-
 	.loading {
 		margin-block: 4rem;
-	}
-
-	@media (max-width: 400px) {
-		.character-details .image {
-			width: 100%;
-		}
 	}
 </style>
