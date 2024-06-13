@@ -42,6 +42,7 @@
 	"dependencies": {
 		"@auth/firebase-adapter": "^2.0.0",
 		"@auth/sveltekit": "^1.0.0",
+		"ajv": "^8.16.0",
 		"carbon-icons-svelte": "^12.6.0",
 		"firebase": "^10.11.0",
 		"firebase-admin": "^11.11.1"
