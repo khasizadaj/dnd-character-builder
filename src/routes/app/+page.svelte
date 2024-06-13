@@ -1,36 +1,36 @@
 <script lang="ts">
-	import {
-		Tile,
-		Link,
-		Tabs,
-		Tab,
-		TabContent,
-		Loading,
-	} from 'carbon-components-svelte';
+	import { page } from '$app/stores';
+	import { characterInMemory } from '$lib/stores.js';
 
-	import { config as configStore } from '$lib/stores';
+	import { Tile, Tabs, Tab, TabContent, Loading } from 'carbon-components-svelte';
 
-	import CharacterDetails from '$lib/components/CharacterDetails.svelte';
 	import AbilityScores from '$lib/components/AbilityScores.svelte';
+	import CharacterDetails from '$lib/components/CharacterDetails.svelte';
+	import CharacterUpload from '$lib/components/CharacterUpload.svelte';
+	import Features from '$lib/components/Features.svelte';
 	import Health from '$lib/components/Health.svelte';
 	import Weapon from '$lib/components/Weapon.svelte';
-	import Features from '$lib/components/Features.svelte';
-
-	import type { Config } from '$lib/types';
 
 	export let data;
-	import { page } from '$app/stores';
-	import CharacterUpload from '$lib/components/CharacterUpload.svelte';
 
 	let { character: characterDetails } = data;
 
-	let config: Config;
-	configStore.subscribe((value: Config) => {
-		config = { ...value };
+	/* Subscribe to the characterInMemory store which is updated when
+	 * a new character file is uploaded
+	 */
+	characterInMemory.subscribe((value: any) => {
+		/* If the value is null, don't do anything
+		 * This is to prevent the characterDetails from being set to null
+		 * when the characterDetails is already set to a value from the server
+		 */
+		if (value == null) {
+			return;
+		}
+		characterDetails = value;
 	});
 </script>
 
-<CharacterUpload characterDetails></CharacterUpload>
+<CharacterUpload></CharacterUpload>
 
 {#await characterDetails}
 	<div class="loading">

@@ -1,89 +1,19 @@
-<script>
-	import Ajv from 'ajv';
-	import { FileUploader, Link, Tile } from 'carbon-components-svelte';
+<script lang="ts">
+	import { Accordion, AccordionItem, FileUploader, Link, Tile } from 'carbon-components-svelte';
+	import { schemaValidator, characterSchema } from '$lib/schema';
+	import { InformationSquareFilled } from 'carbon-icons-svelte';
+	import type { ErrorObject } from 'ajv';
+	import { characterInMemory } from '$lib/stores';
+	import { page } from '$app/stores';
 
-	export let characterDetails;
-
+	const validate = schemaValidator.compile(characterSchema);
 	let fileUploader;
-	const ajv = new Ajv();
 
-	const schema = {
-		type: 'object',
-		properties: {
-			name: { type: 'string' },
-			class: { type: 'string' },
-			level: { type: 'integer' },
-			race: { type: 'string' },
-			gender: { type: 'string' },
-			abilityScores: {
-				type: 'array',
-				maxItems: 6,
-				minItems: 6,
-				items: {
-					type: 'object',
-					properties: {
-						type: { type: 'string' },
-						score: { type: 'integer' },
-						proficient: { type: 'boolean' }
-					},
-					required: ['type', 'score', 'proficient']
-				}
-			},
-			weapons: {
-				type: 'array',
-				items: {
-					type: 'object',
-					properties: {
-						name: { type: 'string' },
-						dice: {
-							type: 'array',
-							items: {
-								type: 'object',
-								properties: {
-									count: { type: 'integer' },
-									type: { type: 'integer' },
-									damage: { type: 'string' }
-								},
-								required: ['count', 'type', 'damage']
-							}
-						},
-						attackAbility: { type: 'string' }
-					},
-					required: ['name', 'dice', 'attackAbility', 'modifier']
-				}
-			},
-			feature_sources: {
-				type: 'array',
-				items: {
-					type: 'object',
-					properties: {
-						type: { type: 'string' },
-						title: { type: 'string' },
-						features: {
-							type: 'array',
-							items: {
-								type: 'object',
-								properties: {
-									title: { type: 'string' },
-									acccessedLevel: { type: 'number', minimum: 1 },
-									description: {
-										type: 'array',
-										items: {
-											type: 'string'
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		required: ['name', 'class', 'level', 'abilityScores', 'weapons'],
-		additionalProperties: true
-	};
-	const validate = ajv.compile(schema);
-	const loadCharacterFile = (files) => {
+	let validation: any;
+	$: isInvalid = false;
+
+	const loadCharacterFile = async (files) => {
+		let characterDetails: any;
 		const file = files.detail[0];
 		const reader = new FileReader();
 		reader.onload = () => {
@@ -93,40 +23,47 @@
 					return;
 				}
 				const jsonData = JSON.parse(fileContent);
-				let validJson = validate(jsonData);
-				if (!validJson) {
+				validation = validate(jsonData);
+				if (!validation) {
 					console.error(validate.errors);
+					isInvalid = true;
 				} else {
 					console.log('All is well.');
-				}
-				console.log(jsonData);
-				// if ($page.data.user) {
-				// 	fetch('/character', {
-				// 		method: 'POST',
-				// 		headers: {
-				// 			'Content-type': 'application/json'
-				// 		},
-				// 		body: JSON.stringify(jsonData)
-				// 	}).then((response) => {
-				// 		if (!response.ok) {
-				// 			console.error('Failed to save character.');
-				// 			characterDetails = new Promise(function (resolve) {
-				// 				resolve({
-				// 					isSample: true,
-				// 					data: null
-				// 				});
-				// 			});
-				// 			return;
-				// 		}
-				// 		console.log('Character saved to database successfully.');
-				// 	});
-				// }
-				characterDetails = new Promise(function (resolve) {
-					resolve({
-						isSample: false,
-						data: jsonData
+					isInvalid = false;
+					if ($page.data.user) {
+						fetch('/character', {
+							method: 'POST',
+							headers: {
+								'Content-type': 'application/json'
+							},
+							body: JSON.stringify(jsonData)
+						}).then((response) => {
+							if (!response.ok) {
+								// TODO Show error message to user
+								console.error('Failed to save character.');
+								characterDetails = new Promise(function (resolve) {
+									resolve({
+										isSample: true,
+										data: null
+									});
+								});
+								characterInMemory.set(characterDetails);
+								return;
+							}
+							console.log('Character saved to database successfully.');
+						});
+					}
+					/* Show laoded file in UI. This doesn't guarantee that the file is svaed to database.
+					 * User will be informed about the status of the file saving to database.
+					 */
+					characterDetails = new Promise(function (resolve) {
+						resolve({
+							isSample: false,
+							data: jsonData
+						});
 					});
-				});
+					characterInMemory.set(characterDetails);
+				}
 			} catch (e) {
 				console.error('Error parsing JSON:', e);
 				return;
@@ -139,6 +76,29 @@
 		};
 		reader.readAsText(file);
 	};
+
+	const getFriendlyMessage = (error: ErrorObject) => {
+		console.log(error);
+		let parts = error.instancePath.slice(1).split('/');
+		if (error.keyword === 'required') {
+			return `"${error.params.missingProperty} is required property.`;
+		}
+		if (error.keyword === 'type') {
+			return `"${parts[parts.length - 1]}" should be of type ${error.params.type}.`;
+		}
+	};
+	const getFriendlyInstancePath = (error: ErrorObject) => {
+		console.log(error);
+		let parts = error.instancePath.split('/');
+		if (parts.length === 1) {
+			return 'root';
+		}
+		return `root => ${parts.slice(1).join(' => ')}`;
+	};
+
+	const toSentenceCase = (text: string) => {
+		return text.charAt(0).toUpperCase() + text.slice(1);
+	};
 </script>
 
 <Tile>
@@ -146,7 +106,7 @@
 		bind:this={fileUploader}
 		labelTitle="Add your character"
 		buttonLabel="Add file"
-		accept={['.json	']}
+		accept={['.json']}
 		status="complete"
 		on:change={(files) => loadCharacterFile(files)}
 	>
@@ -161,4 +121,33 @@
 			</p>
 		</article>
 	</FileUploader>
+	{#if isInvalid}
+		<div class="border-solid border-red-400 border-2">
+			<div class="flex items-center gap-2 p-2 border-b-2 border-solid border-red-400">
+				<InformationSquareFilled size={24} class="text-red-400" />
+				<h5 class="text-base text-red-400">Invalid character file</h5>
+			</div>
+			<div class="flex flex-col gap-4">
+				<Accordion>
+					{#each validate.errors as error, index}
+						<AccordionItem>
+							<div slot="title">
+								{getFriendlyMessage(error) || 'Error'}
+							</div>
+							<p>
+								Description: <span class="font-medium"
+									>{toSentenceCase(error.message.toString())}
+								</span>
+							</p>
+							<p>
+								Where: <span class="font-mono">
+									{getFriendlyInstancePath(error) || 'Error'}
+								</span>
+							</p>
+						</AccordionItem>
+					{/each}
+				</Accordion>
+			</div>
+		</div>
+	{/if}
 </Tile>
