@@ -1,28 +1,16 @@
 <script lang="ts">
 	import {
-		Tag,
 		Tile,
-		FileUploader,
 		Link,
 		Tabs,
 		Tab,
 		TabContent,
 		Loading,
-		Button
 	} from 'carbon-components-svelte';
-	import {
-		ArrowRight,
-		HealthCross,
-		InformationSquareFilled,
-		ManageProtection,
-		ToolKit,
-		WatsonHealthBrushFreehand
-	} from 'carbon-icons-svelte';
 
 	import { config as configStore } from '$lib/stores';
 
 	import CharacterDetails from '$lib/components/CharacterDetails.svelte';
-	import Authentication from '$lib/components/Authentication.svelte';
 	import AbilityScores from '$lib/components/AbilityScores.svelte';
 	import Health from '$lib/components/Health.svelte';
 	import Weapon from '$lib/components/Weapon.svelte';
@@ -32,60 +20,9 @@
 
 	export let data;
 	import { page } from '$app/stores';
+	import CharacterUpload from '$lib/components/CharacterUpload.svelte';
 
 	let { character: characterDetails } = data;
-
-	let fileUploader;
-
-	const loadCharacterFile = (files) => {
-		const file = files.detail[0];
-		const reader = new FileReader();
-		reader.onload = () => {
-			try {
-				const fileContent = reader.result?.toString();
-				if (!fileContent) {
-					return;
-				}
-				const jsonData = JSON.parse(fileContent);
-				if ($page.data.user) {
-					fetch('/character', {
-						method: 'POST',
-						headers: {
-							'Content-type': 'application/json'
-						},
-						body: JSON.stringify(jsonData)
-					}).then((response) => {
-						if (!response.ok) {
-							console.error('Failed to save character.');
-							characterDetails = new Promise(function (resolve) {
-								resolve({
-									isSample: true,
-									data: null
-								});
-							});
-							return;
-						}
-						console.log('Character saved to database successfully.');
-					});
-				}
-				characterDetails = new Promise(function (resolve) {
-					resolve({
-						isSample: false,
-						data: jsonData
-					});
-				});
-			} catch (e) {
-				console.error('Error parsing JSON:', e);
-				return;
-			}
-		};
-
-		reader.onerror = (error) => {
-			console.error('File reading error:', error);
-			return;
-		};
-		reader.readAsText(file);
-	};
 
 	let config: Config;
 	configStore.subscribe((value: Config) => {
@@ -93,27 +30,7 @@
 	});
 </script>
 
-<Tile>
-	<FileUploader
-		bind:this={fileUploader}
-		labelTitle="Add your character"
-		buttonLabel="Add file"
-		accept={['.json	']}
-		status="complete"
-		on:change={(files) => loadCharacterFile(files)}
-	>
-		<article slot="labelDescription">
-			Only JSON files are accepted. See sample character file
-			<Link
-				target="_blank"
-				href="https://gist.github.com/khasizadaj/66804c314e9e31b0d148b68057e4564a">here</Link
-			>.
-			<p style="font-size: inherit">
-				<strong>[ NOTE ]</strong> Currently sample data is loaded from example character of mine.
-			</p>
-		</article>
-	</FileUploader>
-</Tile>
+<CharacterUpload characterDetails></CharacterUpload>
 
 {#await characterDetails}
 	<div class="loading">
