@@ -8,7 +8,7 @@
 
 <div class="character-details">
 			<div
-				class="image"
+				class="image border-2 border-stone-900 border-solid"
 				style="background-image: url({character.profilePicture});"
 			></div>
 			<h1 class="text-4xl">{character.name}</h1>
