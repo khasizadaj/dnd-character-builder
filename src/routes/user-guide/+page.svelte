@@ -50,9 +50,9 @@
 			get started.
 		</p>
 	</div>
-	<div class="mb-4 p-4 bg-emerald-700 w-full h-full">
+	<div class="mb-4 h-full w-full bg-emerald-700 p-4">
 		<InformationSquareFilled size={24} class="mb-2" />
-		<h4 class="mb-1 text-lg font-bold text-left">Limited To Single Character</h4>
+		<h4 class="mb-1 text-left text-lg font-bold">Limited To Single Character</h4>
 		<p>
 			At the moment, the DnD Character Builder supports only one character at a time. This ensures a
 			focused and detailed character management experience, though support for multiple characters
@@ -79,7 +79,7 @@
 			<ListItem
 				>Go to our <a
 					href="/account/signup"
-					class="text-blue-400 hover:underline decoration-blue-400 hover:underline-offset-2"
+					class="text-blue-400 decoration-blue-400 hover:underline hover:underline-offset-2"
 					>Signup</a
 				> page.</ListItem
 			>
@@ -107,8 +107,8 @@
 				<ListItem>Proficiency bonus & AC & Speed & Initiative</ListItem>
 			</OrderedList>
 		</div>
-		<div class="border-solid border-emerald-700 border-2">
-			<div class="mb-8 flex items-center gap-2 p-4 border-b-2 border-solid border-emerald-700">
+		<div class="border-2 border-solid border-emerald-700">
+			<div class="mb-8 flex items-center gap-2 border-b-2 border-solid border-emerald-700 p-4">
 				<InformationSquareFilled size={24} class="text-emerald-700" />
 				<h5 class="text-lg text-emerald-700">Sample</h5>
 			</div>
@@ -118,23 +118,23 @@
 	</div>
 	<div class="mb-4">
 		<h3 class="mb-4 text-2xl">How to create character</h3>
-		<div class="mb-4 p-4 bg-orange-600 w-full h-full flex gap-2 items-center">
+		<div class="mb-4 flex h-full w-full items-center gap-2 bg-orange-600 p-4">
 			<InformationSquareFilled size={24} class="" />
-			<h4 class="text-lg font-bold text-left">Coming soon ...</h4>
+			<h4 class="text-left text-lg font-bold">Coming soon ...</h4>
 		</div>
 	</div>
 	<div class="mb-4">
 		<h3 class="mb-4 text-2xl">How to modify character</h3>
-		<div class="mb-4 p-4 bg-orange-600 w-full h-full flex gap-2 items-center">
+		<div class="mb-4 flex h-full w-full items-center gap-2 bg-orange-600 p-4">
 			<InformationSquareFilled size={24} class="" />
-			<h4 class="text-lg font-bold text-left">Coming soon ...</h4>
+			<h4 class="text-left text-lg font-bold">Coming soon ...</h4>
 		</div>
 	</div>
 	<div class="mb-4">
 		<h3 class="mb-4 text-2xl">In-game tools</h3>
-		<div class="mb-4 p-4 bg-orange-600 w-full h-full flex gap-2 items-center">
+		<div class="mb-4 flex h-full w-full items-center gap-2 bg-orange-600 p-4">
 			<InformationSquareFilled size={24} class="" />
-			<h4 class="text-lg font-bold text-left">Coming soon ...</h4>
+			<h4 class="text-left text-lg font-bold">Coming soon ...</h4>
 		</div>
 	</div>
 </section>
