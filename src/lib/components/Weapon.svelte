@@ -179,7 +179,7 @@
 		<br />
 		<h4>Description</h4>
 		<br />
-		<UnorderedList expressive>
+		<UnorderedList expressive class="ml-6">
 			{#each weapon.description as line}
 				<ListItem>{line}</ListItem>
 			{/each}
