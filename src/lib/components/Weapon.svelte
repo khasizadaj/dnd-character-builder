@@ -25,6 +25,7 @@
 
 	export let weapon: WeaponInfo;
 	export let character: any;
+	export let expanded = false;
 
 	const attackAbilityInfo: AbilityScore | null = getAbilityScore(
 		weapon.attackAbility,
@@ -86,7 +87,7 @@
 	let resultIsShown = false;
 </script>
 
-<ExpandableTile tileExpandedLabel="View less" tileCollapsedLabel="View more">
+<ExpandableTile tileExpandedLabel="View less" tileCollapsedLabel="View more" bind:expanded>
 	<div slot="above">
 		<h3>{weapon.name}</h3>
 		{#each weapon.dice as die}
