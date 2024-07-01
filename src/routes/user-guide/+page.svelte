@@ -11,8 +11,6 @@
 	import Weapon from '$lib/components/Weapon.svelte';
 
 	import character from '$lib/assets/demo-character.json';
-	import Features from '$lib/components/Features.svelte';
-	import Health from '$lib/components/Health.svelte';
 	import { InformationSquareFilled } from 'carbon-icons-svelte';
 	import AbilityScores from '$lib/components/AbilityScores.svelte';
 	import CharacterDetails from '$lib/components/CharacterDetails.svelte';
@@ -98,7 +96,7 @@
 			<p class="mb-4">
 				On this part of the application you can find basic information about your character:
 			</p>
-			<OrderedList expressive class="ml-6">
+			<OrderedList expressive class="mb-4 ml-6">
 				<ListItem>Picture of your character</ListItem>
 				<ListItem>Name of your character</ListItem>
 				<ListItem>Level & Class name</ListItem>
@@ -106,14 +104,45 @@
 				<ListItem>Ability scores</ListItem>
 				<ListItem>Proficiency bonus & AC & Speed & Initiative</ListItem>
 			</OrderedList>
-		</div>
-		<div class="border-2 border-solid border-emerald-700">
-			<div class="mb-8 flex items-center gap-2 border-b-2 border-solid border-emerald-700 p-4">
-				<InformationSquareFilled size={24} class="text-emerald-700" />
-				<h5 class="text-lg text-emerald-700">Sample</h5>
+			<div class="border-2 border-solid border-emerald-700">
+				<div class="mb-8 flex items-center gap-2 border-b-2 border-solid border-emerald-700 p-4">
+					<InformationSquareFilled size={24} class="text-emerald-700" />
+					<h5 class="text-lg text-emerald-700">Sample</h5>
+				</div>
+				<CharacterDetails {character}></CharacterDetails>
+				<AbilityScores {character}></AbilityScores>
 			</div>
-			<CharacterDetails {character}></CharacterDetails>
-			<AbilityScores {character}></AbilityScores>
+		</div>
+		<div class="mb-4">
+			<h4 class="mb-4 text-xl">Weapons</h4>
+			<p class="mb-4">
+				On this part of the application you can find all necessary information about your weapons:
+			</p>
+			<OrderedList expressive class="mb-4 ml-6">
+				<ListItem>Name of weapon</ListItem>
+				<ListItem>Weapon description (when expanded)</ListItem>
+				<ListItem>Damage dice and types</ListItem>
+				<ListItem>Weapon modifiers</ListItem>
+				<ListItem>Button to roll for attack</ListItem>
+			</OrderedList>
+			<div class="mb-4 border-2 border-solid border-emerald-700">
+				<div class="mb-4 flex items-center gap-2 border-b-2 border-solid border-emerald-700 p-4">
+					<InformationSquareFilled size={24} class="text-emerald-700" />
+					<h5 class="text-lg text-emerald-700">Sample weapon</h5>
+				</div>
+				<div class="mx-4 mb-4">
+					<Weapon weapon={sampleWeapon} {character}></Weapon>
+				</div>
+			</div>
+			<div class="border-2 border-solid border-emerald-700">
+				<div class="mb-4 flex items-center gap-2 border-b-2 border-solid border-emerald-700 p-4">
+					<InformationSquareFilled size={24} class="text-emerald-700" />
+					<h5 class="text-lg text-emerald-700">Sample weapon - Expanded</h5>
+				</div>
+				<div class="mx-4 mb-4">
+					<Weapon weapon={sampleWeapon} {character} expanded={true}></Weapon>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="mb-4">
